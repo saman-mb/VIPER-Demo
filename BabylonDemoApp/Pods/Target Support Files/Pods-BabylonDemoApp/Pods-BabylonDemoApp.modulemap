@@ -1,0 +1,6 @@
+framework module Pods_BabylonDemoApp {
+  umbrella header "Pods-BabylonDemoApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
