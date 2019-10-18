@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -85,7 +85,6 @@
 				F9775DED845DB2D30C562170 /* Pods-BabylonDemoApp.debug.xcconfig */,
 				47288AC1209510955D94DAE4 /* Pods-BabylonDemoApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -114,8 +113,13 @@
 		8F7FB4A92358AAD400E75BCE /* BabylonDemoApp */ = {
 			isa = PBXGroup;
 			children = (
+				8FB182502359C15300292D94 /* Common */,
+				8FB1824F2359C12700292D94 /* ViewControllers */,
+				8FB1824E2359C11400292D94 /* Services */,
+				8FB1824B2359C0D000292D94 /* Models */,
+				8FB1824D2359C0ED00292D94 /* Presenters */,
+				8FB1824C2359C0E800292D94 /* Views */,
 				8F7FB4AA2358AAD400E75BCE /* AppDelegate.swift */,
-				8F7FB4AC2358AAD400E75BCE /* ViewController.swift */,
 				8F7FB4AE2358AAD400E75BCE /* Main.storyboard */,
 				8F7FB4B12358AAD500E75BCE /* Assets.xcassets */,
 				8F7FB4B32358AAD500E75BCE /* LaunchScreen.storyboard */,
@@ -140,6 +144,49 @@
 				8F7FB4CC2358AAD500E75BCE /* Info.plist */,
 			);
 			path = BabylonDemoAppUITests;
+			sourceTree = "<group>";
+		};
+		8FB1824B2359C0D000292D94 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8FB1824C2359C0E800292D94 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8FB1824D2359C0ED00292D94 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
+		8FB1824E2359C11400292D94 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8FB1824F2359C12700292D94 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8F7FB4AC2358AAD400E75BCE /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8FB182502359C15300292D94 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		9D9A183A39405ED9E17BC286 /* Frameworks */ = {
