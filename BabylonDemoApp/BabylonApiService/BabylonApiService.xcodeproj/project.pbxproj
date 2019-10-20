@@ -14,6 +14,14 @@
 		8FAEF38F235CF08D0036EAB0 /* URLSession+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF389235CF08D0036EAB0 /* URLSession+Loading.swift */; };
 		8FAEF390235CF08D0036EAB0 /* UrlSessionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF38A235CF08D0036EAB0 /* UrlSessionType.swift */; };
 		8FAEF392235CF08D0036EAB0 /* Data+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF38C235CF08D0036EAB0 /* Data+Decoding.swift */; };
+		8FAEF3A1235CF2100036EAB0 /* BabylonApiConfigurationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF39F235CF2100036EAB0 /* BabylonApiConfigurationProvider.swift */; };
+		8FAEF3A2235CF2100036EAB0 /* BabylonApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF3A0235CF2100036EAB0 /* BabylonApi.swift */; };
+		8FAEF3A6235CF6ED0036EAB0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF3A5235CF6ED0036EAB0 /* User.swift */; };
+		8FAEF3A8235CF6FD0036EAB0 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF3A7235CF6FD0036EAB0 /* Comment.swift */; };
+		8FAEF3AA235CF7060036EAB0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF3A9235CF7060036EAB0 /* Post.swift */; };
+		8FAEF3AD235CF9BF0036EAB0 /* Geolocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF3AC235CF9BF0036EAB0 /* Geolocation.swift */; };
+		8FAEF3AF235CF9E60036EAB0 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF3AE235CF9E60036EAB0 /* Company.swift */; };
+		8FB75724235CFDB000E8C04A /* BabylonServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB75723235CFDB000E8C04A /* BabylonServiceFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +45,14 @@
 		8FAEF389235CF08D0036EAB0 /* URLSession+Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+Loading.swift"; sourceTree = "<group>"; };
 		8FAEF38A235CF08D0036EAB0 /* UrlSessionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrlSessionType.swift; sourceTree = "<group>"; };
 		8FAEF38C235CF08D0036EAB0 /* Data+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Decoding.swift"; sourceTree = "<group>"; };
+		8FAEF39F235CF2100036EAB0 /* BabylonApiConfigurationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabylonApiConfigurationProvider.swift; sourceTree = "<group>"; };
+		8FAEF3A0235CF2100036EAB0 /* BabylonApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabylonApi.swift; sourceTree = "<group>"; };
+		8FAEF3A5235CF6ED0036EAB0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8FAEF3A7235CF6FD0036EAB0 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		8FAEF3A9235CF7060036EAB0 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		8FAEF3AC235CF9BF0036EAB0 /* Geolocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geolocation.swift; sourceTree = "<group>"; };
+		8FAEF3AE235CF9E60036EAB0 /* Company.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
+		8FB75723235CFDB000E8C04A /* BabylonServiceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabylonServiceFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +77,8 @@
 		8FAEF357235CB15B0036EAB0 = {
 			isa = PBXGroup;
 			children = (
+				8FAEF3A4235CF6DC0036EAB0 /* Models */,
+				8FAEF3A3235CF6D30036EAB0 /* API */,
 				8FAEF386235CF06B0036EAB0 /* Common */,
 				8FAEF363235CB15B0036EAB0 /* BabylonApiService */,
 				8FAEF36E235CB15B0036EAB0 /* BabylonApiServiceTests */,
@@ -104,6 +122,28 @@
 				8FAEF38A235CF08D0036EAB0 /* UrlSessionType.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		8FAEF3A3235CF6D30036EAB0 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				8FAEF3A0235CF2100036EAB0 /* BabylonApi.swift */,
+				8FAEF39F235CF2100036EAB0 /* BabylonApiConfigurationProvider.swift */,
+				8FB75723235CFDB000E8C04A /* BabylonServiceFactory.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		8FAEF3A4235CF6DC0036EAB0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8FAEF3A5235CF6ED0036EAB0 /* User.swift */,
+				8FAEF3A7235CF6FD0036EAB0 /* Comment.swift */,
+				8FAEF3A9235CF7060036EAB0 /* Post.swift */,
+				8FAEF3AC235CF9BF0036EAB0 /* Geolocation.swift */,
+				8FAEF3AE235CF9E60036EAB0 /* Company.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,10 +256,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FAEF3A2235CF2100036EAB0 /* BabylonApi.swift in Sources */,
 				8FAEF390235CF08D0036EAB0 /* UrlSessionType.swift in Sources */,
 				8FAEF38F235CF08D0036EAB0 /* URLSession+Loading.swift in Sources */,
+				8FAEF3A8235CF6FD0036EAB0 /* Comment.swift in Sources */,
 				8FAEF392235CF08D0036EAB0 /* Data+Decoding.swift in Sources */,
+				8FAEF3A1235CF2100036EAB0 /* BabylonApiConfigurationProvider.swift in Sources */,
+				8FAEF3AD235CF9BF0036EAB0 /* Geolocation.swift in Sources */,
+				8FAEF3AF235CF9E60036EAB0 /* Company.swift in Sources */,
+				8FAEF3AA235CF7060036EAB0 /* Post.swift in Sources */,
 				8FAEF38D235CF08D0036EAB0 /* Result.swift in Sources */,
+				8FB75724235CFDB000E8C04A /* BabylonServiceFactory.swift in Sources */,
+				8FAEF3A6235CF6ED0036EAB0 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
