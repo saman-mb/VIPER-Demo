@@ -4,6 +4,8 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'BabylonDemoApp' do
-  pod "PromiseKit"
-  pod "PromiseKit/Foundation"
+  pod 'PromiseKit'
+  pod 'PromiseKit/Foundation'
+  pod 'RxSwift'
+  pod 'RxCocoa'
 end
