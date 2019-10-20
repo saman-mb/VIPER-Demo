@@ -15,6 +15,7 @@
 		8F7FB4B52358AAD500E75BCE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7FB4B32358AAD500E75BCE /* LaunchScreen.storyboard */; };
 		8F7FB4C02358AAD500E75BCE /* BabylonDemoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7FB4BF2358AAD500E75BCE /* BabylonDemoAppTests.swift */; };
 		8F7FB4CB2358AAD500E75BCE /* BabylonDemoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7FB4CA2358AAD500E75BCE /* BabylonDemoAppUITests.swift */; };
+		8FAEF39E235CF0DD0036EAB0 /* BabylonApiService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAEF399235CF0CA0036EAB0 /* BabylonApiService.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8F7FB4A62358AAD400E75BCE;
 			remoteInfo = BabylonDemoApp;
+		};
+		8FAEF398235CF0CA0036EAB0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FAEF393235CF0CA0036EAB0 /* BabylonApiService.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8FAEF361235CB15B0036EAB0;
+			remoteInfo = BabylonApiService;
+		};
+		8FAEF39A235CF0CA0036EAB0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FAEF393235CF0CA0036EAB0 /* BabylonApiService.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8FAEF36A235CB15B0036EAB0;
+			remoteInfo = BabylonApiServiceTests;
+		};
+		8FAEF39C235CF0D10036EAB0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FAEF393235CF0CA0036EAB0 /* BabylonApiService.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8FAEF360235CB15B0036EAB0;
+			remoteInfo = BabylonApiService;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -50,6 +72,7 @@
 		8F7FB4C62358AAD500E75BCE /* BabylonDemoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabylonDemoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7FB4CA2358AAD500E75BCE /* BabylonDemoAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabylonDemoAppUITests.swift; sourceTree = "<group>"; };
 		8F7FB4CC2358AAD500E75BCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8FAEF393235CF0CA0036EAB0 /* BabylonApiService.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BabylonApiService.xcodeproj; path = BabylonApiService/BabylonApiService.xcodeproj; sourceTree = "<group>"; };
 		F9775DED845DB2D30C562170 /* Pods-BabylonDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabylonDemoApp.debug.xcconfig"; path = "Target Support Files/Pods-BabylonDemoApp/Pods-BabylonDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FAEF39E235CF0DD0036EAB0 /* BabylonApiService.framework in Frameworks */,
 				628B078CC1546FF4F6BC87A2 /* Pods_BabylonDemoApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,12 +137,7 @@
 		8F7FB4A92358AAD400E75BCE /* BabylonDemoApp */ = {
 			isa = PBXGroup;
 			children = (
-				8FB182502359C15300292D94 /* Common */,
 				8FB1824F2359C12700292D94 /* ViewControllers */,
-				8FB1824E2359C11400292D94 /* Services */,
-				8FB1824B2359C0D000292D94 /* Models */,
-				8FB1824D2359C0ED00292D94 /* Presenters */,
-				8FB1824C2359C0E800292D94 /* Views */,
 				8F7FB4AA2358AAD400E75BCE /* AppDelegate.swift */,
 				8F7FB4AE2358AAD400E75BCE /* Main.storyboard */,
 				8F7FB4B12358AAD500E75BCE /* Assets.xcassets */,
@@ -146,32 +165,13 @@
 			path = BabylonDemoAppUITests;
 			sourceTree = "<group>";
 		};
-		8FB1824B2359C0D000292D94 /* Models */ = {
+		8FAEF394235CF0CA0036EAB0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				8FAEF399235CF0CA0036EAB0 /* BabylonApiService.framework */,
+				8FAEF39B235CF0CA0036EAB0 /* BabylonApiServiceTests.xctest */,
 			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		8FB1824C2359C0E800292D94 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		8FB1824D2359C0ED00292D94 /* Presenters */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Presenters;
-			sourceTree = "<group>";
-		};
-		8FB1824E2359C11400292D94 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		8FB1824F2359C12700292D94 /* ViewControllers */ = {
@@ -182,16 +182,10 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		8FB182502359C15300292D94 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
 		9D9A183A39405ED9E17BC286 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8FAEF393235CF0CA0036EAB0 /* BabylonApiService.xcodeproj */,
 				6E4CECB51F0BC9255A5893CB /* Pods_BabylonDemoApp.framework */,
 			);
 			name = Frameworks;
@@ -213,6 +207,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				8FAEF39D235CF0D10036EAB0 /* PBXTargetDependency */,
 			);
 			name = BabylonDemoApp;
 			productName = BabylonDemoApp;
@@ -291,6 +286,12 @@
 			mainGroup = 8F7FB49E2358AAD400E75BCE;
 			productRefGroup = 8F7FB4A82358AAD400E75BCE /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8FAEF394235CF0CA0036EAB0 /* Products */;
+					ProjectRef = 8FAEF393235CF0CA0036EAB0 /* BabylonApiService.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8F7FB4A62358AAD400E75BCE /* BabylonDemoApp */,
@@ -299,6 +300,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8FAEF399235CF0CA0036EAB0 /* BabylonApiService.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = BabylonApiService.framework;
+			remoteRef = 8FAEF398235CF0CA0036EAB0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8FAEF39B235CF0CA0036EAB0 /* BabylonApiServiceTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = BabylonApiServiceTests.xctest;
+			remoteRef = 8FAEF39A235CF0CA0036EAB0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8F7FB4A52358AAD400E75BCE /* Resources */ = {
@@ -407,6 +425,11 @@
 			isa = PBXTargetDependency;
 			target = 8F7FB4A62358AAD400E75BCE /* BabylonDemoApp */;
 			targetProxy = 8F7FB4C72358AAD500E75BCE /* PBXContainerItemProxy */;
+		};
+		8FAEF39D235CF0D10036EAB0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BabylonApiService;
+			targetProxy = 8FAEF39C235CF0D10036EAB0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

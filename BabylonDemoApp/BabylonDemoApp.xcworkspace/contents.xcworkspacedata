@@ -5,6 +5,9 @@
       location = "group:BabylonDemoApp.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:BabylonApiService/BabylonApiService.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

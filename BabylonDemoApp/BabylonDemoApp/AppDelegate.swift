@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BabylonApiService
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
