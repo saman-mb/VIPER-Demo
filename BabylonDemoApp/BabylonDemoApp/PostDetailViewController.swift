@@ -10,9 +10,23 @@ import UIKit
 
 class PostDetailViewController: UIViewController {
 
+    let presenter: PostDetailPresenter
+    
+    required init?(coder: NSCoder, presenter: PostDetailPresenter)
+    {
+        self.presenter = presenter
+        super.init(coder: coder)
+    }
+
+    required init?(coder: NSCoder)
+    {
+        fatalError("You must create this view controller with a \(PostDetailPresenter.self)")
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        self.title = "Post Detail"
     }
 }
