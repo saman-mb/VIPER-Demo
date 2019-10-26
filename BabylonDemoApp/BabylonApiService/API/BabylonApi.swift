@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 
 public protocol BabylonApi
 {
@@ -70,10 +71,9 @@ extension BabylonApiImplementation: BabylonApi
     
     
     //MARK:- Helpers
-    @discardableResult
-    private func executeRequeast<T: Decodable>(withUrl url: URL, _ completion: @escaping (Result<T>) -> Void) -> URLSessionDataTaskType?
+    private func executeRequeast<T: Decodable>(withUrl url: URL, _ completion: @escaping (Result<T>) -> Void)
     {
-        return urlSession.downloadData(from: url, headers: configration.headers, method: .GET) { dataResult in
+        urlSession.downloadData(from: url, headers: configration.headers, method: .GET) { dataResult in
             self.handleResult(dataResult, completion)
         }
     }

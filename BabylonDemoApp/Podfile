@@ -1,11 +1,21 @@
 platform :ios, '12.0'
-project 'BabylonDemoApp.xcodeproj'
 inhibit_all_warnings!
 use_frameworks!
 
+workspace 'BabylonDemoApp'
+xcodeproj 'BabylonDemoApp.xcodeproj'
+xcodeproj 'BabylonApiService/BabylonApiService.xcodeproj'
+
 target 'BabylonDemoApp' do
+  xcodeproj 'BabylonDemoApp.xcodeproj'
   pod 'PromiseKit'
   pod 'PromiseKit/Foundation'
   pod 'RxSwift'
   pod 'RxCocoa'
+end
+
+target 'BabylonApiService' do
+  xcodeproj 'BabylonApiService/BabylonApiService.xcodeproj'
+  pod 'PromiseKit'
+  pod 'PromiseKit/Foundation'
 end
