@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
-        let postsViewController = ViewControllerFactory.makePostsViewController(api: api)
-        let navigationController = PostsNavigationViewController(rootViewController: postsViewController)
+        let postsViewController = PostsViewController.makeFromStoryBoard(withApi: api)
+        let navigationController = UINavigationController(rootViewController: postsViewController)
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationController

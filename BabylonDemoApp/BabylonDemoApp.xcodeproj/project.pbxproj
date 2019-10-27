@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		628B078CC1546FF4F6BC87A2 /* Pods_BabylonDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4CECB51F0BC9255A5893CB /* Pods_BabylonDemoApp.framework */; };
 		8F171B1C2365928D0015545B /* BabylonApi+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F171B1A2365928C0015545B /* BabylonApi+PromiseKit.swift */; };
+		8F171B1E2365AA0D0015545B /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F171B1D2365AA0D0015545B /* PostTableViewCell.swift */; };
 		8F7FB4AB2358AAD400E75BCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7FB4AA2358AAD400E75BCE /* AppDelegate.swift */; };
 		8F7FB4AD2358AAD400E75BCE /* PostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7FB4AC2358AAD400E75BCE /* PostsViewController.swift */; };
 		8F7FB4B02358AAD400E75BCE /* ViewControllers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7FB4AE2358AAD400E75BCE /* ViewControllers.storyboard */; };
@@ -19,8 +20,6 @@
 		8FAEF39E235CF0DD0036EAB0 /* BabylonApiService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAEF399235CF0CA0036EAB0 /* BabylonApiService.framework */; };
 		8FB7571E235CFAA900E8C04A /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB7571D235CFAA900E8C04A /* PostDetailViewController.swift */; };
 		8FB75726235CFEF300E8C04A /* BabylonApiConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB75725235CFEF300E8C04A /* BabylonApiConfiguration.swift */; };
-		8FB7572B235D036600E8C04A /* PostsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB7572A235D036600E8C04A /* PostsNavigationViewController.swift */; };
-		8FB7572D235D03DF00E8C04A /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB7572C235D03DF00E8C04A /* ViewControllerFactory.swift */; };
 		8FB75730235D057D00E8C04A /* PostsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB7572F235D057D00E8C04A /* PostsPresenter.swift */; };
 		8FB75732235DB12B00E8C04A /* PostDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB75731235DB12B00E8C04A /* PostDetailPresenter.swift */; };
 		8FCD63E62365823B000CAB92 /* Array+FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCD63E52365823B000CAB92 /* Array+FileManager.swift */; };
@@ -68,6 +67,7 @@
 		47288AC1209510955D94DAE4 /* Pods-BabylonDemoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabylonDemoApp.release.xcconfig"; path = "Target Support Files/Pods-BabylonDemoApp/Pods-BabylonDemoApp.release.xcconfig"; sourceTree = "<group>"; };
 		6E4CECB51F0BC9255A5893CB /* Pods_BabylonDemoApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BabylonDemoApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F171B1A2365928C0015545B /* BabylonApi+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BabylonApi+PromiseKit.swift"; sourceTree = "<group>"; };
+		8F171B1D2365AA0D0015545B /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		8F7FB4A72358AAD400E75BCE /* BabylonDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabylonDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7FB4AA2358AAD400E75BCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F7FB4AC2358AAD400E75BCE /* PostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
@@ -84,8 +84,6 @@
 		8FAEF393235CF0CA0036EAB0 /* BabylonApiService.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BabylonApiService.xcodeproj; path = BabylonApiService/BabylonApiService.xcodeproj; sourceTree = "<group>"; };
 		8FB7571D235CFAA900E8C04A /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostDetailViewController.swift; path = BabylonDemoApp/PostDetailViewController.swift; sourceTree = SOURCE_ROOT; };
 		8FB75725235CFEF300E8C04A /* BabylonApiConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabylonApiConfiguration.swift; sourceTree = "<group>"; };
-		8FB7572A235D036600E8C04A /* PostsNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsNavigationViewController.swift; sourceTree = "<group>"; };
-		8FB7572C235D03DF00E8C04A /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
 		8FB7572F235D057D00E8C04A /* PostsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsPresenter.swift; sourceTree = "<group>"; };
 		8FB75731235DB12B00E8C04A /* PostDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailPresenter.swift; sourceTree = "<group>"; };
 		8FCD63E52365823B000CAB92 /* Array+FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FileManager.swift"; sourceTree = "<group>"; };
@@ -204,9 +202,8 @@
 		8FB1824F2359C12700292D94 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				8FB7572C235D03DF00E8C04A /* ViewControllerFactory.swift */,
-				8FB7572A235D036600E8C04A /* PostsNavigationViewController.swift */,
 				8F7FB4AC2358AAD400E75BCE /* PostsViewController.swift */,
+				8F171B1D2365AA0D0015545B /* PostTableViewCell.swift */,
 				8FB7571D235CFAA900E8C04A /* PostDetailViewController.swift */,
 			);
 			path = ViewControllers;
@@ -441,12 +438,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F7FB4AD2358AAD400E75BCE /* PostsViewController.swift in Sources */,
-				8FB7572B235D036600E8C04A /* PostsNavigationViewController.swift in Sources */,
 				8FB75726235CFEF300E8C04A /* BabylonApiConfiguration.swift in Sources */,
 				8FCD63E62365823B000CAB92 /* Array+FileManager.swift in Sources */,
-				8FB7572D235D03DF00E8C04A /* ViewControllerFactory.swift in Sources */,
 				8FB75730235D057D00E8C04A /* PostsPresenter.swift in Sources */,
 				8F171B1C2365928D0015545B /* BabylonApi+PromiseKit.swift in Sources */,
+				8F171B1E2365AA0D0015545B /* PostTableViewCell.swift in Sources */,
 				8FB75732235DB12B00E8C04A /* PostDetailPresenter.swift in Sources */,
 				8FB7571E235CFAA900E8C04A /* PostDetailViewController.swift in Sources */,
 				8F7FB4AB2358AAD400E75BCE /* AppDelegate.swift in Sources */,
