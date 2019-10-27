@@ -11,11 +11,14 @@ import UIKit
 class PostsViewController: UITableViewController {
     
     private let postsPresenter: PostsPresenter
+    private let activityIndicator = UIActivityIndicatorView(style: .medium)
+    private let messageLabel: UILabel = UILabel()
     
     init?(coder: NSCoder, postsPresenter: PostsPresenter)
     {
         self.postsPresenter = postsPresenter
         super.init(coder: coder)
+        self.postsPresenter.delegate = self
     }
 
     required init?(coder: NSCoder)
@@ -27,7 +30,13 @@ class PostsViewController: UITableViewController {
     {
         super.viewDidLoad()
         
-        self.title = "Posts"
+        title = "Posts"
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+        
+        postsPresenter.refreshPosts()
     }
     
     //MARK:- UITableViewDataSource
@@ -38,7 +47,7 @@ class PostsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 1
+        return postsPresenter.posts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -46,9 +55,30 @@ class PostsViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") else {
             return UITableViewCell(style: .subtitle, reuseIdentifier: "PostCell")
         }
-        cell.textLabel?.text = "Hello"
-        cell.detailTextLabel?.text = "World"
+        let post = postsPresenter.posts[indexPath.row]
+        cell.textLabel?.text = post.title
+        cell.detailTextLabel?.text = post.body
         return cell
+    }
+}
+
+extension PostsViewController: PostsPresenterDelegate
+{
+    func postsPresenterDidStartLoading()
+    {
+        activityIndicator.startAnimating()
+    }
+    
+    func postsPresenterDidUpdatePosts()
+    {
+        activityIndicator.stopAnimating()
+        tableView.reloadData()
+    }
+    
+    func postsPresenterDidRecieveError(_ error: PostsPresenterError)
+    {
+        activityIndicator.stopAnimating()
+        
     }
 }
 

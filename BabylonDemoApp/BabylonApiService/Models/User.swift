@@ -10,18 +10,18 @@ import Foundation
 
 public struct User: Codable
 {
-    let id: String
-    let name: String
-    let username: String
-    let email: String
-    let address: String
-    let street: String
-    let suite: String
-    let city: String
-    let zipcode: String
-    let geo: GeoLocation
-    let phone: String
-    let website: String
-    let company: Company
+    public let id: String
+    public let name: String
+    public let username: String
+    public let email: String
+    public let address: String
+    public let street: String
+    public let suite: String
+    public let city: String
+    public let zipcode: String
+    public let geo: GeoLocation
+    public let phone: String
+    public let website: String
+    public let company: Company
 }
 

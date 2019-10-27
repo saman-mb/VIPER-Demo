@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PromiseKit
 
 public protocol BabylonApi
 {
@@ -45,7 +44,6 @@ extension BabylonApiImplementation: BabylonApi
             completion(.error(BabylonApiError.invalidUrl))
             return
         }
-
         executeRequeast(withUrl: url, completion)
     }
     
@@ -55,7 +53,6 @@ extension BabylonApiImplementation: BabylonApi
             completion(.error(BabylonApiError.invalidUrl))
             return
         }
-
         executeRequeast(withUrl: url, completion)
     }
     
@@ -65,7 +62,6 @@ extension BabylonApiImplementation: BabylonApi
             completion(.error(BabylonApiError.invalidUrl))
             return
         }
-
         executeRequeast(withUrl: url, completion)
     }
     
@@ -84,16 +80,20 @@ extension BabylonApiImplementation: BabylonApi
         switch dataResult
         {
         case .success(let data):
-            let accountsResult: Result<T> = data.decodeJson()
-            switch accountsResult {
-            case .success(let accountsResponse):
-                completion(.success(accountsResponse))
-            case .error(let error):
-                completion(.error(BabylonApiError.failedToDecodeJson(error)))
-            }
-            
+            processResponseData(data, completion)
         case .error(let error):
             completion(.error(BabylonApiError.requestFailed(error)))
+        }
+    }
+    
+    private func processResponseData<T: Decodable>(_ data: (Data), _ completion: (Result<T>) -> Void)
+    {
+        let accountsResult: Result<T> = data.decodeJson()
+        switch accountsResult {
+        case .success(let accountsResponse):
+            completion(.success(accountsResponse))
+        case .error(let error):
+            completion(.error(BabylonApiError.failedToDecodeJson(error)))
         }
     }
 }

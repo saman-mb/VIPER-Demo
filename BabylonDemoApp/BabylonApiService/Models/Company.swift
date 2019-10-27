@@ -10,7 +10,7 @@ import Foundation
 
 public struct Company: Codable
 {
-    let name: String
-    let catchPhrase: String
-    let bs: String
+    public let name: String
+    public let catchPhrase: String
+    public let bs: String
 }

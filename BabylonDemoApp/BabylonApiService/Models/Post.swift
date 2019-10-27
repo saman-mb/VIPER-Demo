@@ -10,8 +10,8 @@ import Foundation
 
 public struct Post: Codable
 {
-    let id: String
-    let userId: String
-    let title: String
-    let body: String
+    public let id: Int
+    public let userId: Int
+    public let title: String
+    public let body: String
 }
