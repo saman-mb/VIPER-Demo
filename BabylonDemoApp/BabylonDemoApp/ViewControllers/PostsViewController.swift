@@ -53,7 +53,7 @@ class PostsViewController: UIViewController {
     {
         presenter.viewModels
             .bind(to: tableView.rx.items(cellIdentifier: "PostCell", cellType: PostTableViewCell.self)) { (row, viewModel, cell) in
-                cell.configure(with: viewModel)
+                cell.viewModel.accept(viewModel)
             }
             .disposed(by: disposeBag)
         

@@ -83,8 +83,8 @@
                                             <constraint firstAttribute="trailing" secondItem="fwq-NK-phy" secondAttribute="trailing" constant="20" id="xS2-dD-PqT"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="subTitle" destination="fwq-NK-phy" id="FQK-7a-6Bv"/>
-                                            <outlet property="title" destination="AA6-HV-K30" id="xqg-9P-Xv1"/>
+                                            <outlet property="subTitleLabel" destination="fwq-NK-phy" id="twF-Ao-zza"/>
+                                            <outlet property="titleLabel" destination="AA6-HV-K30" id="Nly-NF-3MF"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

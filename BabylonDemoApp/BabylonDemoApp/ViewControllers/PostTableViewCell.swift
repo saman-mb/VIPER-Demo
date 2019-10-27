@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 struct PostViewModel
 {
@@ -16,16 +18,24 @@ struct PostViewModel
 
 class PostTableViewCell: UITableViewCell
 {
-    @IBOutlet var title: UILabel!
-    @IBOutlet var subTitle: UILabel!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var subTitleLabel: UILabel!
+    var disposeBag = DisposeBag()
+    var viewModel: BehaviorRelay<PostViewModel?> = BehaviorRelay(value: nil)
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupLabelBindings()
     }
     
-    func configure(with viewModel: PostViewModel)
+    private func setupLabelBindings()
     {
-        title.text = viewModel.title
-        subTitle.text = viewModel.subTitle
+        viewModel
+               .bind { viewModel in
+                   self.titleLabel.text = viewModel?.title
+                   self.subTitleLabel.text = viewModel?.subTitle
+               }
+               .disposed(by: disposeBag)
     }
+    
 }
