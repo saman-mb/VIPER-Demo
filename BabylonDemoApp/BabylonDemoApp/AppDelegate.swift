@@ -13,12 +13,13 @@ import BabylonApiService
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private let api = BabylonServiceFactory.makeApi(configration: BabylonApiConfiguration(), urlSession: URLSession.shared)
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
-        let postsViewController = PostsViewController.makeFromStoryBoard(withApi: api)
-        let navigationController = UINavigationController(rootViewController: postsViewController)
+        let navigationController = PostsNavigationController()
+        let router = PostsRouter(navigator: navigationController)
+        let postsViewController = PostsViewController.makeFromStoryBoard(router: router)
+        navigationController.viewControllers = [postsViewController]
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationController

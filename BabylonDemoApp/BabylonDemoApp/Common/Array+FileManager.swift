@@ -8,24 +8,14 @@
 
 import Foundation
 
-enum JSONError: Error
-{
-    case missingDocumentsDirectoy
-}
-
 extension Array where Element: Encodable
 {
-    func writeToFileOnDisk(named fileName: String) throws
+    func writeToFileToDocuments(named fileName: String, fileWriter: FileWritable = FileWriter()) throws
     {
         do {
-            guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-                throw JSONError.missingDocumentsDirectoy
-            }
-            let fileUrl = documentDirectoryUrl.appendingPathComponent(fileName)
             let jsonData = try JSONEncoder().encode(self)
-            try jsonData.write(to: fileUrl, options: [])
+            try fileWriter.write(data: jsonData, toFileNamed: fileName)
         }
-        
     }
 }
 

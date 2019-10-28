@@ -13,18 +13,18 @@ import RxCocoa
 
 class PostsViewController: UIViewController {
     
-    private let presenter: PostsPresenter
+    private var presenter: PostsPresentable
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var retryButton: UIButton!
     private var disposeBag = DisposeBag()
     
-    static func makeFromStoryBoard(withApi api: BabylonApi) -> PostsViewController
+    static func makeFromStoryBoard(router: PostsRoutable) -> PostsViewController
     {
         let storyboard = UIStoryboard(name: "ViewControllers", bundle: nil)
         let postsViewController = storyboard.instantiateViewController(identifier: "PostsViewController", creator: { coder in
-            return PostsViewController(coder: coder, postsPresenter: PostsPresenter(api: api))
+            return PostsViewController(coder: coder, postsPresenter: PostsPresenter(api: BabylonServiceFactory.makeApi(), router: router))
         })
         return postsViewController
     }
@@ -46,7 +46,7 @@ class PostsViewController: UIViewController {
         super.viewDidLoad()
         title = "Posts"
         setupTableViewBindings()
-        presenter.refreshPosts()
+        presenter.refresh()
     }
     
     private func setupTableViewBindings()
@@ -73,7 +73,7 @@ extension PostsViewController: UITableViewDelegate
 {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        print("Did select row")
+        presenter.presentDetailsForPost(at: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -82,7 +82,7 @@ extension PostsViewController: UITableViewDelegate
     }
 }
 
-extension PostsViewController: PostsPresenterDelegate
+extension PostsViewController: PostsPresentableDelegate
 {
     func postsPresenterDidStartLoading()
     {

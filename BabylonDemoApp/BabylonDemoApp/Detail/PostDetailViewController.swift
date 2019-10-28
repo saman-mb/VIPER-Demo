@@ -13,11 +13,11 @@ class PostDetailViewController: UIViewController {
 
     let presenter: PostDetailPresenter
     
-    static func makeFromStoryBoard(withApi api: BabylonApi) -> PostDetailViewController
+    static func makeFromStoryBoard(router: PostsRoutable) -> PostDetailViewController
     {
         let storyboard = UIStoryboard(name: "ViewControllers", bundle: nil)
         let postsViewController = storyboard.instantiateViewController(identifier: "PostDetailViewController", creator: { coder in
-            return PostDetailViewController(coder: coder, presenter: PostDetailPresenter(api: api))
+            return PostDetailViewController(coder: coder, presenter: PostDetailPresenter(api: BabylonServiceFactory.makeApi(), router: router, fileWriter: FileWriter()))
         })
         return postsViewController
     }
@@ -36,7 +36,7 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
+
         self.title = "Post Detail"
     }
 }

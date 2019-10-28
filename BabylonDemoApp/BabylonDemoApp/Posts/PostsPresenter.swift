@@ -12,11 +12,19 @@ import BabylonApiService
 import RxSwift
 import RxCocoa
 
-protocol PostsPresenterDelegate: class
+protocol PostsPresentableDelegate: class
 {
     func postsPresenterDidStartLoading()
     func postsPresenterDidUpdatePosts(with viewModels: [PostViewModel])
     func postsPresenterDidRecieveError(_ error: PostsPresenterError)
+}
+
+protocol PostsPresentable
+{
+    var delegate: PostsPresentableDelegate? { get set }
+    var viewModels: BehaviorRelay<[PostViewModel]> { get }
+    func presentDetailsForPost(at index: Int)
+    func refresh()
 }
 
 enum PostsPresenterError: Error
@@ -26,44 +34,58 @@ enum PostsPresenterError: Error
     case invalidJson
 }
 
-final class PostsPresenter
+final class PostsPresenter: PostsPresentable
 {
+    private typealias RefreshResult = (viewModels: [PostViewModel], posts: [Post])
+    
     static let postsFileName = "Posts.json"
     private let api: BabylonApi
-    weak var delegate: PostsPresenterDelegate?
+    private let router: PostsRoutable
+    private var posts: [Post] = []
+    weak var delegate: PostsPresentableDelegate?
     private(set) var viewModels: BehaviorRelay<[PostViewModel]> = BehaviorRelay(value: [])
     
-    init(api: BabylonApi)
+    init(api: BabylonApi, router: PostsRoutable)
     {
         self.api = api
+        self.router = router
     }
     
-    func refreshPosts()
+    func presentDetailsForPost(at index: Int)
     {
-        delegate?.postsPresenterDidStartLoading()
+        let post = posts[index]
+        router.pushPostDetails(for: post)
+    }
+    
+    func refresh()
+    {
         firstly {
             api.posts()
         }
-        .then(on: DispatchQueue.global()) { posts in
+        .then(on: DispatchQueue.userIntiatedGlobal) { posts in
             self.persistPostsJson(posts)
         }
-        .then(on: DispatchQueue.global()) { posts in
+        .then(on: DispatchQueue.userIntiatedGlobal) { posts in
             self.mapPostsToViewModels(from: posts)
         }
-        .done { viewModels in
-            self.viewModels.accept(viewModels)
-            self.delegate?.postsPresenterDidUpdatePosts(with: viewModels)
+        .ensure {
+            self.delegate?.postsPresenterDidStartLoading()
+        }
+        .done { result in
+            self.posts = result.posts
+            self.viewModels.accept(result.viewModels)
+            self.delegate?.postsPresenterDidUpdatePosts(with: result.viewModels)
         }
         .catch { error in
             self.delegate?.postsPresenterDidRecieveError(.unableToLoadPosts(error))
         }
     }
     
-    private func mapPostsToViewModels(from posts: [Post]) -> Promise<[PostViewModel]>
+    private func mapPostsToViewModels(from posts: [Post]) -> Promise<RefreshResult>
     {
         return Promise { seal in
             let viewModels = posts.map { PostViewModel(title: $0.title, subTitle: $0.body) }
-            seal.fulfill(viewModels)
+            seal.fulfill((viewModels, posts))
         }
     }
     
@@ -71,7 +93,7 @@ final class PostsPresenter
     {
         return Promise { seal in
             do {
-                try posts.writeToFileOnDisk(named: type(of: self).postsFileName)
+                try posts.writeToFileToDocuments(named: type(of: self).postsFileName)
                 seal.fulfill(posts)
             }
             catch {
