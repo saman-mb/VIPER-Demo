@@ -15,6 +15,13 @@ protocol PostsRoutable
     func popToPostsList()
 }
 
+struct PostDetailsSelection
+{
+    let userId: Int
+    let postId: Int
+    let postText: String
+}
+
 class PostsRouter: PostsRoutable
 {
     let navigator: PostsNavigatable
@@ -26,7 +33,8 @@ class PostsRouter: PostsRoutable
     
     func pushPostDetails(for selectedPost: Post)
     {
-        navigator.push(to: PostDetailViewController.makeFromStoryBoard(router: self))
+        let selection = PostDetailsSelection(userId: selectedPost.userId, postId: selectedPost.id, postText: selectedPost.body)
+        navigator.push(to: PostDetailViewController.makeFromStoryBoard(router: self, selection: selection))
     }
     
     func popToPostsList()

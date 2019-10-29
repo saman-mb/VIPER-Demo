@@ -29,7 +29,7 @@ struct PostDetailsViewModel
 {
     let authorTitle: String
     let description: String
-    let numberOfComments: Int
+    let numberOfCommentsText: String
 }
 
 protocol PostDetailPresentable {
@@ -57,7 +57,7 @@ final class PostDetailPresenter
         self.fileWriter = fileWriter
     }
     
-    func loadUser(for selectedId: String, in post: Post)
+    func loadDetails(for selection: PostDetailsSelection)
     {
         firstly {
             when(fulfilled: api.users(), api.comments())
@@ -66,13 +66,13 @@ final class PostDetailPresenter
             when(fulfilled: self.persistUsers(users), self.persistComments(comments))
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
-            self.mapViewModels(from: users, comments: comments, post: post, selectedId: selectedId)
-        }
-        .done { viewModel in
-            self.delegate?.postDetailPresenterDidFinishLoading(viewModel: viewModel)
+            self.mapViewModels(from: users, comments: comments, selection: selection)
         }
         .ensure {
             self.delegate?.postDetailPresenterDidStartLoading()
+        }
+        .done { viewModel in
+            self.delegate?.postDetailPresenterDidFinishLoading(viewModel: viewModel)
         }
         .catch { error in
             self.delegate?.postDetailPresenterDidFailToLoadWithError(PostDetailPresenterError.failedToLoadUserDetails(error))
@@ -81,17 +81,27 @@ final class PostDetailPresenter
     
     //MARK: - Helpers
     
-    private func mapViewModels(from users: [User], comments: [Comment], post: Post, selectedId: String) -> Promise<PostDetailsViewModel>
+    private func mapViewModels(from users: [User], comments: [Comment], selection: PostDetailsSelection) -> Promise<PostDetailsViewModel>
     {
         return Promise { seal in
-            guard let selectedUser = users.first(where: { $0.id == selectedId }) else {
+            guard let selectedUser = users.first(where: { $0.id == selection.userId }) else {
                 seal.reject(PostDetailPresenterError.unableToExtractUserDetails)
                 return
             }
             let viewModel = PostDetailsViewModel(authorTitle: selectedUser.username,
-                                                 description: post.body,
-                                                 numberOfComments: comments.count)
+                                                description: selection.postText,
+                                                numberOfCommentsText: commentsText(from: comments, selection: selection))
             seal.fulfill(viewModel)
+        }
+    }
+    
+    private func commentsText(from comments: [Comment], selection: PostDetailsSelection) -> String
+    {
+        let comments = comments.filter { $0.postId == selection.postId }
+        if comments.count > 1 || comments.count == 0 {
+            return "\(comments.count) comments"
+        } else {
+            return "1 comment"
         }
     }
     

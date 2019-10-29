@@ -27,7 +27,7 @@ class PostTableViewCell: UITableViewCell
         super.awakeFromNib()
         setupLabelBindings()
     }
-    
+
     private func setupLabelBindings()
     {
         viewModel

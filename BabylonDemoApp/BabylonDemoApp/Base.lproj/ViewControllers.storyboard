@@ -15,26 +15,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Hello world" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ENx-yq-gLJ">
-                                <rect key="frame" x="20" y="44" width="374" height="426"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Hello world" translatesAutoresizingMaskIntoConstraints="NO" id="ENx-yq-gLJ">
+                                <rect key="frame" x="20" y="146" width="374" height="324"/>
+                                <color key="backgroundColor" red="0.32784870710000003" green="0.93611199239999998" blue="0.84269572540000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WEv-4Y-a5f">
-                                <rect key="frame" x="20" y="478" width="81" height="54"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WEv-4Y-a5f">
+                                <rect key="frame" x="20" y="478" width="374" height="54"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.61748271310000002" green="1" blue="0.91546432339999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="IMA-6P-y4m" firstAttribute="trailing" secondItem="WEv-4Y-a5f" secondAttribute="trailing" constant="313" id="0fa-Yf-IMS"/>
+                            <constraint firstItem="IMA-6P-y4m" firstAttribute="trailing" secondItem="WEv-4Y-a5f" secondAttribute="trailing" constant="20" id="0fa-Yf-IMS"/>
                             <constraint firstItem="ENx-yq-gLJ" firstAttribute="leading" secondItem="IMA-6P-y4m" secondAttribute="leading" constant="20" id="1Nw-Fb-IzB"/>
                             <constraint firstItem="IMA-6P-y4m" firstAttribute="trailing" secondItem="ENx-yq-gLJ" secondAttribute="trailing" constant="20" id="3UD-Zh-9Qh"/>
-                            <constraint firstItem="ENx-yq-gLJ" firstAttribute="top" secondItem="IMA-6P-y4m" secondAttribute="top" id="6C8-Ba-OG8"/>
+                            <constraint firstItem="ENx-yq-gLJ" firstAttribute="top" secondItem="IMA-6P-y4m" secondAttribute="top" constant="102" id="6C8-Ba-OG8"/>
                             <constraint firstItem="IMA-6P-y4m" firstAttribute="bottom" secondItem="WEv-4Y-a5f" secondAttribute="bottom" constant="330" id="6fc-Mk-EbF"/>
                             <constraint firstItem="WEv-4Y-a5f" firstAttribute="leading" secondItem="IMA-6P-y4m" secondAttribute="leading" constant="20" id="MJI-KT-kuP"/>
                             <constraint firstItem="WEv-4Y-a5f" firstAttribute="top" secondItem="ENx-yq-gLJ" secondAttribute="bottom" constant="8" id="l9b-yM-kf5"/>
@@ -63,21 +63,21 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" red="0.61748271310000002" green="1" blue="0.91546432339999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="106" id="qNl-4s-ooO" customClass="PostTableViewCell" customModule="BabylonDemoApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="106" id="qNl-4s-ooO" customClass="PostTableViewCell" customModule="BabylonDemoApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="106"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qNl-4s-ooO" id="Xk6-Gp-NgS">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="106"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="106"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fwq-NK-phy" userLabel="SubtitleLabel">
-                                                    <rect key="frame" x="20" y="57" width="374" height="44"/>
+                                                    <rect key="frame" x="20" y="57" width="355" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AA6-HV-K30" userLabel="TitleLabel">
-                                                    <rect key="frame" x="20" y="6" width="374" height="43"/>
+                                                    <rect key="frame" x="20" y="6" width="355" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="ght-DG-Bq0"/>
                                                     </constraints>
@@ -91,13 +91,14 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.32784870710000003" green="0.93611199239999998" blue="0.84269572540000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstItem="fwq-NK-phy" firstAttribute="leading" secondItem="qNl-4s-ooO" secondAttribute="leading" constant="20" id="NeK-wR-3Ru"/>
                                             <constraint firstAttribute="bottom" secondItem="fwq-NK-phy" secondAttribute="bottom" constant="5" id="UlV-z3-TP9"/>
-                                            <constraint firstAttribute="trailing" secondItem="AA6-HV-K30" secondAttribute="trailing" constant="20" id="Z9J-RY-X1V"/>
+                                            <constraint firstAttribute="trailing" secondItem="AA6-HV-K30" secondAttribute="trailing" constant="39" id="Z9J-RY-X1V"/>
                                             <constraint firstItem="AA6-HV-K30" firstAttribute="top" secondItem="qNl-4s-ooO" secondAttribute="top" constant="6" id="hwA-by-rZs"/>
                                             <constraint firstItem="AA6-HV-K30" firstAttribute="leading" secondItem="qNl-4s-ooO" secondAttribute="leading" constant="20" id="j3g-h4-c3Z"/>
-                                            <constraint firstAttribute="trailing" secondItem="fwq-NK-phy" secondAttribute="trailing" constant="20" id="xS2-dD-PqT"/>
+                                            <constraint firstAttribute="trailing" secondItem="fwq-NK-phy" secondAttribute="trailing" constant="39" id="xS2-dD-PqT"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="subTitleLabel" destination="fwq-NK-phy" id="twF-Ao-zza"/>
@@ -122,7 +123,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CEZ-O1-hbz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4" y="354"/>
+            <point key="canvasLocation" x="2.8985507246376816" y="353.57142857142856"/>
         </scene>
         <!--Loading View Controller-->
         <scene sceneID="pZ4-EU-tPW">

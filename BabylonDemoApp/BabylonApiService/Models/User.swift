@@ -8,18 +8,22 @@
 
 import Foundation
 
-public struct User: Codable
+public struct Address: Codable
 {
-    public let id: String
-    public let name: String
-    public let username: String
-    public let email: String
-    public let address: String
     public let street: String
     public let suite: String
     public let city: String
     public let zipcode: String
     public let geo: GeoLocation
+}
+
+public struct User: Codable
+{
+    public let id: Int
+    public let name: String
+    public let username: String
+    public let email: String
+    public let address: Address
     public let phone: String
     public let website: String
     public let company: Company
