@@ -11,13 +11,17 @@ import BabylonApiService
 
 class PostDetailViewController: UIViewController {
 
-    let presenter: PostDetailPresenter
+    private let presenter: PostDetailPresenter
+    private let loadingViewController: LoadingViewController
+    
+    @IBOutlet var descriptionTextView: UITextView!
+    @IBOutlet var commentCountLabel: UILabel!
     
     static func makeFromStoryBoard(router: PostsRoutable) -> PostDetailViewController
     {
         let storyboard = UIStoryboard(name: "ViewControllers", bundle: nil)
         let postsViewController = storyboard.instantiateViewController(identifier: "PostDetailViewController", creator: { coder in
-            return PostDetailViewController(coder: coder, presenter: PostDetailPresenter(api: BabylonServiceFactory.makeApi(), router: router, fileWriter: FileWriter()))
+            return PostDetailViewController(coder: coder, presenter: PostDetailPresenter(api: BabylonServiceFactory.makeApi(), router: router, fileWriter: DocumentsFacade()))
         })
         return postsViewController
     }
@@ -25,7 +29,9 @@ class PostDetailViewController: UIViewController {
     required init?(coder: NSCoder, presenter: PostDetailPresenter)
     {
         self.presenter = presenter
+        self.loadingViewController = LoadingViewController.makeFromStoryBoard()
         super.init(coder: coder)
+        self.presenter.delegate = self
     }
 
     required init?(coder: NSCoder)
@@ -36,7 +42,28 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
         self.title = "Post Detail"
+    }
+}
+
+extension PostDetailViewController: PostDetailPresentableDelegate
+{
+    func postDetailPresenterDidStartLoading()
+    {
+        loadingViewController.showMessage(false)
+        loadingViewController.showSpinner(true)
+    }
+    
+    func postDetailPresenterDidFinishLoading(viewModel: PostDetailsViewModel)
+    {
+        loadingViewController.showMessage(false)
+        loadingViewController.showSpinner(false)
+        // dipsplay content
+    }
+    
+    func postDetailPresenterDidFailToLoadWithError(_ error: Error)
+    {
+        loadingViewController.showMessage(true)
+        loadingViewController.showSpinner(false)
     }
 }

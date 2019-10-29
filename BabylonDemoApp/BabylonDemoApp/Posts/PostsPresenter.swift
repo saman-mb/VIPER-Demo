@@ -42,13 +42,17 @@ final class PostsPresenter: PostsPresentable
     private let api: BabylonApi
     private let router: PostsRoutable
     private var posts: [Post] = []
+    private var fileWriter: FileWritable
+    private var fileReader: FileReadable
     weak var delegate: PostsPresentableDelegate?
     private(set) var viewModels: BehaviorRelay<[PostViewModel]> = BehaviorRelay(value: [])
     
-    init(api: BabylonApi, router: PostsRoutable)
+    init(api: BabylonApi, router: PostsRoutable, fileInteractor: FileInteractor)
     {
         self.api = api
         self.router = router
+        self.fileWriter = fileInteractor
+        self.fileReader = fileInteractor
     }
     
     func presentDetailsForPost(at index: Int)
@@ -60,40 +64,78 @@ final class PostsPresenter: PostsPresentable
     func refresh()
     {
         firstly {
-            api.posts()
+            loadPosts()
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { posts in
-            self.persistPostsJson(posts)
-        }
-        .then(on: DispatchQueue.userIntiatedGlobal) { posts in
-            self.mapPostsToViewModels(from: posts)
+            when(fulfilled: self.writePostsToDisk(posts), self.mapPostsToViewModels(from: posts))
         }
         .ensure {
             self.delegate?.postsPresenterDidStartLoading()
         }
-        .done { result in
-            self.posts = result.posts
-            self.viewModels.accept(result.viewModels)
-            self.delegate?.postsPresenterDidUpdatePosts(with: result.viewModels)
+        .done { posts, viewModels in
+            // I have put a fake delay here so its easier to see the spinner
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
+                self.posts = posts
+                self.viewModels.accept(viewModels)
+                self.delegate?.postsPresenterDidUpdatePosts(with: viewModels)
+            }
         }
         .catch { error in
             self.delegate?.postsPresenterDidRecieveError(.unableToLoadPosts(error))
         }
     }
-    
-    private func mapPostsToViewModels(from posts: [Post]) -> Promise<RefreshResult>
+
+    private func loadPosts() -> Promise<[Post]>
     {
         return Promise { seal in
-            let viewModels = posts.map { PostViewModel(title: $0.title, subTitle: $0.body) }
-            seal.fulfill((viewModels, posts))
+            firstly {
+                api.posts()
+            }
+            .done { posts in
+                seal.fulfill(posts)
+            }
+            .catch { error in
+                // TODO: this network error is never surfaced
+                firstly {
+                    self.loadPostsFromDisk()
+                }
+                .done { posts in
+                    seal.fulfill(posts)
+                }
+                .catch { error in
+                    seal.reject(error)
+                }
+            }
         }
     }
     
-    private func persistPostsJson(_ posts: [Post]) -> Promise<[Post]>
+    private func mapPostsToViewModels(from posts: [Post]) -> Promise<[PostViewModel]>
+    {
+        return Promise { seal in
+            let viewModels = posts.map { PostViewModel(title: $0.title, subTitle: $0.body) }
+            seal.fulfill((viewModels))
+        }
+    }
+    
+    private func loadPostsFromDisk() -> Promise<[Post]>
     {
         return Promise { seal in
             do {
-                try posts.writeToFileToDocuments(named: type(of: self).postsFileName)
+                let data = try fileReader.loadData(fromFileName: type(of: self).postsFileName)
+                let posts = try JSONDecoder().decode([Post].self, from: data)
+                seal.fulfill(posts)
+            }
+            catch {
+                seal.reject(PostsPresenterError.failedToPersistPosts(error))
+            }
+        }
+    }
+    
+    private func writePostsToDisk(_ posts: [Post]) -> Promise<[Post]>
+    {
+        return Promise { seal in
+            do {
+                try posts.writeToFileToDocuments(named: type(of: self).postsFileName, fileWriter: fileWriter)
                 seal.fulfill(posts)
             }
             catch {

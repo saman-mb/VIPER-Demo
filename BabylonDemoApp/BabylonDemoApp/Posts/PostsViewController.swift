@@ -14,17 +14,15 @@ import RxCocoa
 class PostsViewController: UIViewController {
     
     private var presenter: PostsPresentable
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet var messageLabel: UILabel!
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var retryButton: UIButton!
     private var disposeBag = DisposeBag()
+    private var loadingViewController: LoadingViewController
     
     static func makeFromStoryBoard(router: PostsRoutable) -> PostsViewController
     {
         let storyboard = UIStoryboard(name: "ViewControllers", bundle: nil)
         let postsViewController = storyboard.instantiateViewController(identifier: "PostsViewController", creator: { coder in
-            return PostsViewController(coder: coder, postsPresenter: PostsPresenter(api: BabylonServiceFactory.makeApi(), router: router))
+            return PostsViewController(coder: coder, postsPresenter: PostsPresenter(api: BabylonServiceFactory.makeApi(), router: router, fileInteractor: DocumentsFacade()))
         })
         return postsViewController
     }
@@ -32,6 +30,7 @@ class PostsViewController: UIViewController {
     init?(coder: NSCoder, postsPresenter: PostsPresenter)
     {
         self.presenter = postsPresenter
+        self.loadingViewController = LoadingViewController.makeFromStoryBoard()
         super.init(coder: coder)
         self.presenter.delegate = self
     }
@@ -45,6 +44,8 @@ class PostsViewController: UIViewController {
     {
         super.viewDidLoad()
         title = "Posts"
+        addChild(loadingViewController)
+        view.addSubview(loadingViewController.view)
         setupTableViewBindings()
         presenter.refresh()
     }
@@ -60,12 +61,6 @@ class PostsViewController: UIViewController {
         tableView.rx
             .setDelegate(self)
             .disposed(by: disposeBag)
-    }
-    
-    fileprivate func showMessage(_ shouldShow: Bool)
-    {
-        messageLabel.isHidden = !shouldShow
-        retryButton.isHidden = !shouldShow
     }
 }
 
@@ -86,21 +81,21 @@ extension PostsViewController: PostsPresentableDelegate
 {
     func postsPresenterDidStartLoading()
     {
-        showMessage(false)
-        activityIndicator.startAnimating()
+        loadingViewController.showMessage(false)
+        loadingViewController.showSpinner(true)
     }
     
     func postsPresenterDidUpdatePosts(with viewModels: [PostViewModel])
     {
-        showMessage(false)
-        activityIndicator.stopAnimating()
+        loadingViewController.showMessage(false)
+        loadingViewController.showSpinner(false)
         tableView.reloadData()
     }
     
     func postsPresenterDidRecieveError(_ error: PostsPresenterError)
     {
-        activityIndicator.stopAnimating()
-        showMessage(true)
+        loadingViewController.showSpinner(false)
+        loadingViewController.showMessage(true)
     }
 }
 

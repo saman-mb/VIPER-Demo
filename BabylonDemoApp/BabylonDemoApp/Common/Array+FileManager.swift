@@ -10,7 +10,7 @@ import Foundation
 
 extension Array where Element: Encodable
 {
-    func writeToFileToDocuments(named fileName: String, fileWriter: FileWritable = FileWriter()) throws
+    func writeToFileToDocuments(named fileName: String, fileWriter: FileWritable = DocumentsFacade()) throws
     {
         do {
             let jsonData = try JSONEncoder().encode(self)

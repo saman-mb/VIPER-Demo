@@ -63,6 +63,9 @@ final class PostDetailPresenter
             when(fulfilled: api.users(), api.comments())
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
+            when(fulfilled: self.persistUsers(users), self.persistComments(comments))
+        }
+        .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
             self.mapViewModels(from: users, comments: comments, post: post, selectedId: selectedId)
         }
         .done { viewModel in
@@ -85,17 +88,19 @@ final class PostDetailPresenter
                 seal.reject(PostDetailPresenterError.unableToExtractUserDetails)
                 return
             }
-            let viewModel = PostDetailsViewModel(authorTitle: selectedUser.username, description: post.body, numberOfComments: comments.count)
+            let viewModel = PostDetailsViewModel(authorTitle: selectedUser.username,
+                                                 description: post.body,
+                                                 numberOfComments: comments.count)
             seal.fulfill(viewModel)
         }
     }
     
-    private func persistUsers(_ users: [User]) -> Promise<Void>
+    private func persistUsers(_ users: [User]) -> Promise<[User]>
     {
         return Promise { seal in
             do {
                 try users.writeToFileToDocuments(named: type(of: self).usersFileName, fileWriter: fileWriter)
-                seal.fulfill()
+                seal.fulfill(users)
             }
             catch {
                 seal.reject(PostDetailPresenterError.failedToPersistUsers(error))
@@ -103,12 +108,12 @@ final class PostDetailPresenter
         }
     }
      
-    private func persistComments(_ comments: [Comment]) -> Promise<Void>
+    private func persistComments(_ comments: [Comment]) -> Promise<[Comment]>
     {
         return Promise { seal in
             do {
                 try comments.writeToFileToDocuments(named: type(of: self).commentsFileName, fileWriter: fileWriter)
-                seal.fulfill()
+                seal.fulfill(comments)
             }
             catch {
                 seal.reject(PostDetailPresenterError.failedToPersistComments(error))
