@@ -8,6 +8,8 @@
 
 import UIKit
 import BabylonApiService
+import RxSwift
+import RxCocoa
 
 class PostDetailViewController: UIViewController {
 
@@ -21,7 +23,7 @@ class PostDetailViewController: UIViewController {
     {
         let storyboard = UIStoryboard(name: "ViewControllers", bundle: nil)
         let postsViewController = storyboard.instantiateViewController(identifier: "PostDetailViewController", creator: { coder in
-            return PostDetailViewController(coder: coder, presenter: PostDetailPresenter(api: BabylonServiceFactory.makeApi(), router: router, fileWriter: DocumentsFacade()), selection: selection)
+            return PostDetailViewController(coder: coder, presenter: PostDetailPresenter(api: BabylonServiceFactory.makeApi(), router: router, fileInteractor: DocumentsFacade()), selection: selection)
         })
         return postsViewController
     }

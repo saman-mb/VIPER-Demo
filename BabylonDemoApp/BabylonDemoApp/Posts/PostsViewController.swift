@@ -48,6 +48,11 @@ class PostsViewController: UIViewController {
         addChild(loadingViewController)
         view.addSubview(loadingViewController.view)
         setupTableViewBindings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
         presenter.refresh()
     }
     

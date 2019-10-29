@@ -219,8 +219,8 @@
 				8FCEC67D2365C37A00AE1A53 /* PostsNavigationController.swift */,
 				8F7FB4AC2358AAD400E75BCE /* PostsViewController.swift */,
 				8F171B1D2365AA0D0015545B /* PostTableViewCell.swift */,
-				8F8C05712367350D00BDEC45 /* PostsRouter.swift */,
 				8FB7572F235D057D00E8C04A /* PostsPresenter.swift */,
+				8F8C05712367350D00BDEC45 /* PostsRouter.swift */,
 			);
 			path = Posts;
 			sourceTree = "<group>";
@@ -237,12 +237,12 @@
 		8FCD63E323658231000CAB92 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				8F28CB1123677DD300EF8E82 /* LoadingViewController.swift */,
 				8F171B1A2365928C0015545B /* BabylonApi+PromiseKit.swift */,
 				8FEA404C23677B0700CCF0E5 /* BabylonServiceFactory+Helpers.swift */,
 				8FCD63E52365823B000CAB92 /* Array+FileManager.swift */,
 				8FEA4049236779D600CCF0E5 /* FileWriter.swift */,
 				8F99F1AA2366FD8000ACFBFD /* DispatchQueue+Helpers.swift */,
-				8F28CB1123677DD300EF8E82 /* LoadingViewController.swift */,
 				8F6DB6DD2368B7D600911712 /* UIColor+Helpers.swift */,
 			);
 			path = Common;

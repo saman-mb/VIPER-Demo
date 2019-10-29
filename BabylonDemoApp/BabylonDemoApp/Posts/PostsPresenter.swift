@@ -30,7 +30,7 @@ protocol PostsPresentable
 enum PostsPresenterError: Error
 {
     case unableToLoadPosts(Error)
-    case failedToPersistPosts(Error)
+    case failedToLoad([Error])
     case invalidJson
 }
 
@@ -67,18 +67,17 @@ final class PostsPresenter: PostsPresentable
             loadPosts()
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { posts in
-            when(fulfilled: self.writePostsToDisk(posts), self.mapPostsToViewModels(from: posts))
+            when(fulfilled:
+                posts.writeToFile(named: type(of: self).postsFileName, fileWriter: self.fileWriter),
+                self.mapPostsToViewModels(from: posts))
         }
         .ensure {
             self.delegate?.postsPresenterDidStartLoading()
         }
         .done { posts, viewModels in
-            // I have put a fake delay here so its easier to see the spinner
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
-                self.posts = posts
-                self.viewModels.accept(viewModels)
-                self.delegate?.postsPresenterDidUpdatePosts(with: viewModels)
-//            }
+            self.posts = posts
+            self.viewModels.accept(viewModels)
+            self.delegate?.postsPresenterDidUpdatePosts(with: viewModels)
         }
         .catch { error in
             self.delegate?.postsPresenterDidRecieveError(.unableToLoadPosts(error))
@@ -94,16 +93,15 @@ final class PostsPresenter: PostsPresentable
             .done { posts in
                 seal.fulfill(posts)
             }
-            .catch { error in
-                // TODO: this network error is never surfaced
+            .catch { networkError in
                 firstly {
                     self.loadPostsFromDisk()
                 }
                 .done { posts in
                     seal.fulfill(posts)
                 }
-                .catch { error in
-                    seal.reject(error)
+                .catch { diskError in
+                    seal.reject(PostsPresenterError.failedToLoad([networkError, diskError]))
                 }
             }
         }
@@ -126,20 +124,7 @@ final class PostsPresenter: PostsPresentable
                 seal.fulfill(posts)
             }
             catch {
-                seal.reject(PostsPresenterError.failedToPersistPosts(error))
-            }
-        }
-    }
-    
-    private func writePostsToDisk(_ posts: [Post]) -> Promise<[Post]>
-    {
-        return Promise { seal in
-            do {
-                try posts.writeToFileToDocuments(named: type(of: self).postsFileName, fileWriter: fileWriter)
-                seal.fulfill(posts)
-            }
-            catch {
-                seal.reject(PostsPresenterError.failedToPersistPosts(error))
+                seal.reject(error)
             }
         }
     }

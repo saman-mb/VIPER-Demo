@@ -19,10 +19,10 @@ protocol PostDetailPresentableDelegate: class
 
 enum PostDetailPresenterError: Error
 {
-    case failedToLoadUserDetails(Error)
+    case failedToLoadDetails(Error)
     case unableToExtractUserDetails
-    case failedToPersistComments(Error)
-    case failedToPersistUsers(Error)
+    case failedToLoadUsersFromDisk([Error])
+    case failedToLoadCommentsFromDisk([Error])
 }
 
 struct PostDetailsViewModel
@@ -46,15 +46,17 @@ final class PostDetailPresenter
     let api: BabylonApi
     let router: PostsRoutable
     let fileWriter: FileWritable
+    let fileReader: FileReadable
     
     private let users: [User] = []
     private let comments: [Comment] = []
     
-    init(api: BabylonApi, router: PostsRoutable, fileWriter: FileWritable)
+    init(api: BabylonApi, router: PostsRoutable, fileInteractor: FileInteractor)
     {
         self.api = api
         self.router = router
-        self.fileWriter = fileWriter
+        self.fileWriter = fileInteractor
+        self.fileReader = fileInteractor
     }
     
     func loadDetails(for selection: PostDetailsSelection)
@@ -63,7 +65,9 @@ final class PostDetailPresenter
             when(fulfilled: api.users(), api.comments())
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
-            when(fulfilled: self.persistUsers(users), self.persistComments(comments))
+            when(fulfilled:
+                users.writeToFile(named: type(of: self).usersFileName, fileWriter: self.fileWriter),
+                comments.writeToFile(named: type(of: self).commentsFileName, fileWriter: self.fileWriter))
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
             self.mapViewModels(from: users, comments: comments, selection: selection)
@@ -75,11 +79,57 @@ final class PostDetailPresenter
             self.delegate?.postDetailPresenterDidFinishLoading(viewModel: viewModel)
         }
         .catch { error in
-            self.delegate?.postDetailPresenterDidFailToLoadWithError(PostDetailPresenterError.failedToLoadUserDetails(error))
+            self.delegate?.postDetailPresenterDidFailToLoadWithError(PostDetailPresenterError.failedToLoadDetails(error))
         }
     }
     
     //MARK: - Helpers
+    
+    private func loadUsers() -> Promise<[User]>
+    {
+        return Promise { seal in
+            firstly {
+                api.users()
+            }
+            .done { users in
+                seal.fulfill(users)
+            }
+            .catch { networkError in
+                firstly {
+                    [User].loadFromFile(named: type(of: self).usersFileName, fileReader: self.fileReader)
+                }
+                .done { users in
+                    seal.fulfill(users)
+                }
+                .catch { diskError in
+                    seal.reject(PostDetailPresenterError.failedToLoadUsersFromDisk([networkError, diskError]))
+                }
+            }
+        }
+    }
+    
+    private func loadComments() -> Promise<[Comment]>
+    {
+        return Promise { seal in
+            firstly {
+                api.comments()
+            }
+            .done { comments in
+                seal.fulfill(comments)
+            }
+            .catch { networkError in
+                firstly {
+                    [Comment].loadFromFile(named: type(of: self).commentsFileName, fileReader: self.fileReader)
+                }
+                .done { comments in
+                    seal.fulfill(comments)
+                }
+                .catch { diskError in
+                    seal.reject(PostDetailPresenterError.failedToLoadCommentsFromDisk([networkError, diskError]))
+                }
+            }
+        }
+    }
     
     private func mapViewModels(from users: [User], comments: [Comment], selection: PostDetailsSelection) -> Promise<PostDetailsViewModel>
     {
@@ -105,29 +155,5 @@ final class PostDetailPresenter
         }
     }
     
-    private func persistUsers(_ users: [User]) -> Promise<[User]>
-    {
-        return Promise { seal in
-            do {
-                try users.writeToFileToDocuments(named: type(of: self).usersFileName, fileWriter: fileWriter)
-                seal.fulfill(users)
-            }
-            catch {
-                seal.reject(PostDetailPresenterError.failedToPersistUsers(error))
-            }
-        }
-    }
-     
-    private func persistComments(_ comments: [Comment]) -> Promise<[Comment]>
-    {
-        return Promise { seal in
-            do {
-                try comments.writeToFileToDocuments(named: type(of: self).commentsFileName, fileWriter: fileWriter)
-                seal.fulfill(comments)
-            }
-            catch {
-                seal.reject(PostDetailPresenterError.failedToPersistComments(error))
-            }
-        }
-    }
+   
 }
