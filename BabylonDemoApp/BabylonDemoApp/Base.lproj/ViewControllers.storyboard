@@ -132,21 +132,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="4pG-Ji-gZq">
-                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="4pG-Ji-gZq">
+                                <rect key="frame" x="188.66666666666666" y="429.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LCU-a0-V3N">
                                 <rect key="frame" x="42" y="370" width="330" height="166"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sx7-Oe-hto">
-                                        <rect key="frame" x="20" y="85" width="290" height="61"/>
+                                        <rect key="frame" x="20" y="60" width="290" height="61"/>
+                                        <color key="backgroundColor" red="0.3278487070871548" green="0.9361119923857868" blue="0.84269572536660897" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="61" id="6vX-vn-XDJ"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <state key="normal" title="Retry"/>
+                                        <connections>
+                                            <action selector="didTapRetryButton:" destination="Xkx-ly-NJr" eventType="touchUpInside" id="wV9-uj-EVI"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oops something went wrong..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hL5-gH-BX3">
-                                        <rect key="frame" x="48.333333333333329" y="56.666666666666693" width="233.66666666666669" height="20.333333333333336"/>
+                                        <rect key="frame" x="48.333333333333329" y="31.666666666666686" width="233.66666666666669" height="20.333333333333329"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -159,7 +164,7 @@
                                     <constraint firstItem="Sx7-Oe-hto" firstAttribute="centerX" secondItem="LCU-a0-V3N" secondAttribute="centerX" id="FPC-Ee-gon"/>
                                     <constraint firstAttribute="height" constant="166" id="U8o-3n-L9J"/>
                                     <constraint firstItem="Sx7-Oe-hto" firstAttribute="top" secondItem="hL5-gH-BX3" secondAttribute="bottom" constant="8" id="ixh-YQ-UbW"/>
-                                    <constraint firstAttribute="bottom" secondItem="Sx7-Oe-hto" secondAttribute="bottom" constant="20" id="ofz-Py-UGy"/>
+                                    <constraint firstAttribute="bottom" secondItem="Sx7-Oe-hto" secondAttribute="bottom" constant="45" id="ofz-Py-UGy"/>
                                     <constraint firstItem="Sx7-Oe-hto" firstAttribute="leading" secondItem="LCU-a0-V3N" secondAttribute="leading" constant="20" id="sr9-i3-zRq"/>
                                 </constraints>
                             </view>
@@ -181,7 +186,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1aN-R0-Z95" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1372" y="354"/>
+            <point key="canvasLocation" x="1371.0144927536232" y="353.57142857142856"/>
         </scene>
     </scenes>
 </document>

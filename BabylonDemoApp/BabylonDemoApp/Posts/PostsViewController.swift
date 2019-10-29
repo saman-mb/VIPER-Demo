@@ -33,6 +33,7 @@ class PostsViewController: UIViewController {
         self.loadingViewController = LoadingViewController.makeFromStoryBoard()
         super.init(coder: coder)
         self.presenter.delegate = self
+        self.loadingViewController.delegate = self
     }
 
     required init?(coder: NSCoder)
@@ -74,6 +75,14 @@ extension PostsViewController: UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         return 120
+    }
+}
+
+extension PostsViewController: LoadingViewControllerDelegagte
+{
+    func loadingViewControllerDidTapRetryButton()
+    {
+        presenter.refresh()
     }
 }
 

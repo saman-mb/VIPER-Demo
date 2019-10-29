@@ -35,6 +35,11 @@ class LoadingViewController: UIViewController {
         showMessage(false)
     }
     
+    @IBAction func didTapRetryButton(_ retryButton: UIButton)
+    {
+        delegate?.loadingViewControllerDidTapRetryButton()
+    }
+    
     func showSpinner(_ shouldShow: Bool)
     {
         view.isHidden = !shouldShow

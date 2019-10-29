@@ -74,10 +74,10 @@ final class PostsPresenter: PostsPresentable
         }
         .done { posts, viewModels in
             // I have put a fake delay here so its easier to see the spinner
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                 self.posts = posts
                 self.viewModels.accept(viewModels)
-                self.delegate?.postsPresenterDidUpdatePosts(with: viewModels)
+                self.delegate?.postsPresenterDidRecieveError(.invalidJson)
             }
         }
         .catch { error in
