@@ -44,17 +44,21 @@ extension PostsRouter
     {
         let storyboard = UIStoryboard(name: "ViewControllers", bundle: nil)
         let postsViewController = storyboard.instantiateViewController(identifier: "PostDetailViewController", creator: { coder in
-            return PostDetailViewController(coder: coder, presenter: PostDetailPresenter(api: BabylonServiceFactory.makeApi(), fileInteractor: DocumentsFacade()), selection: selection)
+            let interactor = PostDetailInteractor(api: BabylonServiceFactory.makeApi(), fileInteractor: DocumentsFacade())
+            let presenter = PostDetailPresenter(interactor: interactor)
+            return PostDetailViewController(coder: coder, presenter: presenter, selection: selection)
         })
-        return postsViewController
+        return postsViewController as! PostDetailViewController
     }
     
     static func makePostsViewController(router: PostsRoutable) -> PostsViewController
     {
         let storyboard = UIStoryboard(name: "ViewControllers", bundle: nil)
         let postsViewController = storyboard.instantiateViewController(identifier: "PostsViewController", creator: { coder in
-            return PostsViewController(coder: coder, postsPresenter: PostsPresenter(router: router, interactor: PostsInteractor(api: BabylonServiceFactory.makeApi(), fileInteractor: DocumentsFacade())))
+            let interactor = PostsInteractor(api: BabylonServiceFactory.makeApi(), fileInteractor: DocumentsFacade())
+            let presenter = PostsPresenter(router: router, interactor: interactor)
+            return PostsViewController(coder: coder, postsPresenter: presenter)
         })
-        return postsViewController
+        return postsViewController as! PostsViewController
     }
 }

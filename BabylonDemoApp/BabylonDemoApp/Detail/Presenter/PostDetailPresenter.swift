@@ -39,36 +39,21 @@ protocol PostDetailPresentable {
 
 final class PostDetailPresenter
 {
-    static let commentsFileName = "Comments.json"
-    static let usersFileName = "Users.json"
-    
     weak var delegate: PostDetailPresentableDelegate?
-    let api: BabylonApi
-    let fileWriter: FileWritable
-    let fileReader: FileReadable
+    private let interactor: PostDetailInteractable
     
-    private let users: [User] = []
-    private let comments: [Comment] = []
-    
-    init(api: BabylonApi, fileInteractor: FileInteractor)
+    init(interactor: PostDetailInteractable)
     {
-        self.api = api
-        self.fileWriter = fileInteractor
-        self.fileReader = fileInteractor
+        self.interactor = interactor
     }
     
     func loadDetails(for selection: PostDetailsSelection)
     {
         firstly {
-            when(fulfilled: api.users(), api.comments())
+            interactor.loadDetails()
         }
         .ensure {
             self.delegate?.postDetailPresenterDidStartLoading()
-        }
-        .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
-            when(fulfilled:
-                users.writeToFile(named: type(of: self).usersFileName, fileWriter: self.fileWriter),
-                comments.writeToFile(named: type(of: self).commentsFileName, fileWriter: self.fileWriter))
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
             self.mapViewModels(from: users, comments: comments, selection: selection)
@@ -78,54 +63,6 @@ final class PostDetailPresenter
         }
         .catch { error in
             self.delegate?.postDetailPresenterDidFailToLoadWithError(PostDetailPresenterError.failedToLoadDetails(error))
-        }
-    }
-    
-    //MARK: - Helpers
-    
-    private func loadUsers() -> Promise<[User]>
-    {
-        return Promise { seal in
-            firstly {
-                api.users()
-            }
-            .done { users in
-                seal.fulfill(users)
-            }
-            .catch { networkError in
-                firstly {
-                    [User].loadFromFile(named: type(of: self).usersFileName, fileReader: self.fileReader)
-                }
-                .done { users in
-                    seal.fulfill(users)
-                }
-                .catch { diskError in
-                    seal.reject(PostDetailPresenterError.failedToLoadUsersFromDisk([networkError, diskError]))
-                }
-            }
-        }
-    }
-    
-    private func loadComments() -> Promise<[Comment]>
-    {
-        return Promise { seal in
-            firstly {
-                api.comments()
-            }
-            .done { comments in
-                seal.fulfill(comments)
-            }
-            .catch { networkError in
-                firstly {
-                    [Comment].loadFromFile(named: type(of: self).commentsFileName, fileReader: self.fileReader)
-                }
-                .done { comments in
-                    seal.fulfill(comments)
-                }
-                .catch { diskError in
-                    seal.reject(PostDetailPresenterError.failedToLoadCommentsFromDisk([networkError, diskError]))
-                }
-            }
         }
     }
     
