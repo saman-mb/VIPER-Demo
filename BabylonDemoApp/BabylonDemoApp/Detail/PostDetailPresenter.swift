@@ -44,17 +44,15 @@ final class PostDetailPresenter
     
     weak var delegate: PostDetailPresentableDelegate?
     let api: BabylonApi
-    let router: PostsRoutable
     let fileWriter: FileWritable
     let fileReader: FileReadable
     
     private let users: [User] = []
     private let comments: [Comment] = []
     
-    init(api: BabylonApi, router: PostsRoutable, fileInteractor: FileInteractor)
+    init(api: BabylonApi, fileInteractor: FileInteractor)
     {
         self.api = api
-        self.router = router
         self.fileWriter = fileInteractor
         self.fileReader = fileInteractor
     }
@@ -64,6 +62,9 @@ final class PostDetailPresenter
         firstly {
             when(fulfilled: api.users(), api.comments())
         }
+        .ensure {
+            self.delegate?.postDetailPresenterDidStartLoading()
+        }
         .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
             when(fulfilled:
                 users.writeToFile(named: type(of: self).usersFileName, fileWriter: self.fileWriter),
@@ -71,9 +72,6 @@ final class PostDetailPresenter
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
             self.mapViewModels(from: users, comments: comments, selection: selection)
-        }
-        .ensure {
-            self.delegate?.postDetailPresenterDidStartLoading()
         }
         .done { viewModel in
             self.delegate?.postDetailPresenterDidFinishLoading(viewModel: viewModel)
@@ -154,6 +152,4 @@ final class PostDetailPresenter
             return "1 comment"
         }
     }
-    
-   
 }

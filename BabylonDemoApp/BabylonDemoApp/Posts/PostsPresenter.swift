@@ -66,13 +66,13 @@ final class PostsPresenter: PostsPresentable
         firstly {
             loadPosts()
         }
+        .ensure {
+            self.delegate?.postsPresenterDidStartLoading()
+        }
         .then(on: DispatchQueue.userIntiatedGlobal) { posts in
             when(fulfilled:
                 posts.writeToFile(named: type(of: self).postsFileName, fileWriter: self.fileWriter),
                 self.mapPostsToViewModels(from: posts))
-        }
-        .ensure {
-            self.delegate?.postsPresenterDidStartLoading()
         }
         .done { posts, viewModels in
             self.posts = posts

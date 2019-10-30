@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import BabylonApiService
 import RxSwift
 import RxCocoa
 
@@ -17,15 +16,6 @@ class PostsViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     private var disposeBag = DisposeBag()
     private var loadingViewController: LoadingViewController
-    
-    static func makeFromStoryBoard(router: PostsRoutable) -> PostsViewController
-    {
-        let storyboard = UIStoryboard(name: "ViewControllers", bundle: nil)
-        let postsViewController = storyboard.instantiateViewController(identifier: "PostsViewController", creator: { coder in
-            return PostsViewController(coder: coder, postsPresenter: PostsPresenter(api: BabylonServiceFactory.makeApi(), router: router, fileInteractor: DocumentsFacade()))
-        })
-        return postsViewController
-    }
     
     init?(coder: NSCoder, postsPresenter: PostsPresenter)
     {
@@ -48,11 +38,6 @@ class PostsViewController: UIViewController {
         addChild(loadingViewController)
         view.addSubview(loadingViewController.view)
         setupTableViewBindings()
-    }
-    
-    override func viewWillAppear(_ animated: Bool)
-    {
-        super.viewWillAppear(animated)
         presenter.refresh()
     }
     
@@ -95,12 +80,14 @@ extension PostsViewController: PostsPresentableDelegate
 {
     func postsPresenterDidStartLoading()
     {
+        loadingViewController.view.isHidden = false
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(true)
     }
     
     func postsPresenterDidUpdatePosts(with viewModels: [PostViewModel])
     {
+        loadingViewController.view.isHidden = true
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(false)
         tableView.reloadData()
@@ -108,6 +95,7 @@ extension PostsViewController: PostsPresentableDelegate
     
     func postsPresenterDidRecieveError(_ error: PostsPresenterError)
     {
+        loadingViewController.view.isHidden = false
         loadingViewController.showSpinner(false)
         loadingViewController.showMessage(true)
     }

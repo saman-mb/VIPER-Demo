@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Hello world" translatesAutoresizingMaskIntoConstraints="NO" id="ENx-yq-gLJ">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Hello world" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="ENx-yq-gLJ">
                                 <rect key="frame" x="20" y="146" width="374" height="324"/>
                                 <color key="backgroundColor" red="0.32784870710000003" green="0.93611199239999998" blue="0.84269572540000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>

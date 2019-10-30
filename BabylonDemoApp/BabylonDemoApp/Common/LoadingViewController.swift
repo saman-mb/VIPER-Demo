@@ -42,7 +42,6 @@ class LoadingViewController: UIViewController {
     
     func showSpinner(_ shouldShow: Bool)
     {
-        view.isHidden = !shouldShow
         if shouldShow {
             activityIndicator.startAnimating()
         } else {
@@ -53,7 +52,6 @@ class LoadingViewController: UIViewController {
     
     func showMessage(_ shouldShow: Bool)
     {
-        view.isHidden = !shouldShow
         messageLabel.isHidden = !shouldShow
         retryButton.isHidden = !shouldShow
     }

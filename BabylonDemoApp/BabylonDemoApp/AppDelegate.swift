@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     {
         let navigationController = PostsNavigationController()
         let router = PostsRouter(navigator: navigationController)
-        let postsViewController = PostsViewController.makeFromStoryBoard(router: router)
+        let postsViewController = PostsRouter.makePostsViewController(router: router)
         navigationController.viewControllers = [postsViewController]
         
         window = UIWindow(frame: UIScreen.main.bounds)

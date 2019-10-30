@@ -30,10 +30,11 @@ class DocumentsFacade: FileInteractor
 {
     func loadData(fromFileName fileName: String) throws -> Data
     {
-        guard let path = Bundle.main.path(forResource: fileName, ofType: nil) else {
+        guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             throw DocumentsManagerError.unableToFindFileNamed(fileName)
         }
-        return try Data(contentsOf: URL(fileURLWithPath: path))
+        let fileUrl = documentDirectoryUrl.appendingPathComponent(fileName)
+        return try Data(contentsOf: fileUrl)
     }
     
     func write(data: Data, toFileNamed fileName: String) throws
