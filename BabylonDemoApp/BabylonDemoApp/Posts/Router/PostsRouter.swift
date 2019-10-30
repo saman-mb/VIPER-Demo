@@ -53,7 +53,7 @@ extension PostsRouter
     {
         let storyboard = UIStoryboard(name: "ViewControllers", bundle: nil)
         let postsViewController = storyboard.instantiateViewController(identifier: "PostsViewController", creator: { coder in
-            return PostsViewController(coder: coder, postsPresenter: PostsPresenter(api: BabylonServiceFactory.makeApi(), router: router, fileInteractor: DocumentsFacade()))
+            return PostsViewController(coder: coder, postsPresenter: PostsPresenter(router: router, interactor: PostsInteractor(api: BabylonServiceFactory.makeApi(), fileInteractor: DocumentsFacade())))
         })
         return postsViewController
     }

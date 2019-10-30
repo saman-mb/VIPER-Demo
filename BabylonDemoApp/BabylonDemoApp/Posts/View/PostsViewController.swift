@@ -85,12 +85,11 @@ extension PostsViewController: PostsPresentableDelegate
         loadingViewController.showSpinner(true)
     }
     
-    func postsPresenterDidUpdatePosts(with viewModels: [PostViewModel])
+    func postsPresenterDidUpdatePosts()
     {
         loadingViewController.view.isHidden = true
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(false)
-        tableView.reloadData()
     }
     
     func postsPresenterDidRecieveError(_ error: PostsPresenterError)
