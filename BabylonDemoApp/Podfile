@@ -3,17 +3,22 @@ inhibit_all_warnings!
 use_frameworks!
 
 workspace 'BabylonDemoApp'
-xcodeproj 'BabylonDemoApp.xcodeproj'
-xcodeproj 'BabylonApiService/BabylonApiService.xcodeproj'
 
 target 'BabylonDemoApp' do
-  xcodeproj 'BabylonDemoApp.xcodeproj'
+  project 'BabylonDemoApp.xcodeproj'
   pod 'PromiseKit'
   pod 'PromiseKit/Foundation'
   pod 'RxSwift'
   pod 'RxCocoa'
 end
 
+target 'BabylonDemoAppTests' do
+   project 'BabylonDemoApp.xcodeproj'
+   pod 'PromiseKit'
+   pod 'PromiseKit/Foundation'
+end
+
+
 target 'BabylonApiService' do
-  xcodeproj 'BabylonApiService/BabylonApiService.xcodeproj'
+  project 'BabylonApiService/BabylonApiService.xcodeproj'
 end

@@ -15,6 +15,7 @@ class PostsViewController: UIViewController {
     private var presenter: PostsPresentable
     @IBOutlet var tableView: UITableView!
     private var disposeBag = DisposeBag()
+    private let refreshControl = UIRefreshControl()
     private var loadingViewController: LoadingViewController
     
     init?(coder: NSCoder, postsPresenter: PostsPresenter)
@@ -35,9 +36,16 @@ class PostsViewController: UIViewController {
     {
         super.viewDidLoad()
         title = "Posts"
+        refreshControl.addTarget(self, action: #selector(refreshWeatherData(_:)), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         addChild(loadingViewController)
         view.addSubview(loadingViewController.view)
         setupTableViewBindings()
+        presenter.refresh()
+    }
+    
+    @objc private func refreshWeatherData(_ sender: Any)
+    {
         presenter.refresh()
     }
     
@@ -49,22 +57,11 @@ class PostsViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        tableView.rx
-            .setDelegate(self)
+        tableView.rx.itemSelected
+            .subscribe(onNext: { indexPath in
+                self.presenter.input.didSelectPost.onNext(indexPath)
+            })
             .disposed(by: disposeBag)
-    }
-}
-
-extension PostsViewController: UITableViewDelegate
-{
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-    {
-        presenter.presentDetailsForPost(at: indexPath.row)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
-        return 120
     }
 }
 
@@ -83,6 +80,7 @@ extension PostsViewController: PostsPresentableDelegate
         loadingViewController.view.isHidden = false
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(true)
+        refreshControl.endRefreshing()
     }
     
     func postsPresenterDidUpdatePosts()
@@ -90,6 +88,7 @@ extension PostsViewController: PostsPresentableDelegate
         loadingViewController.view.isHidden = true
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(false)
+        refreshControl.endRefreshing()
     }
     
     func postsPresenterDidRecieveError(_ error: PostsPresenterError)
@@ -97,6 +96,7 @@ extension PostsViewController: PostsPresentableDelegate
         loadingViewController.view.isHidden = false
         loadingViewController.showSpinner(false)
         loadingViewController.showMessage(true)
+        refreshControl.endRefreshing()
     }
 }
 

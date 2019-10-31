@@ -11,7 +11,6 @@ import UIKit
 protocol PostsNavigatable
 {
     func push(to detailsViewController: PostDetailViewController)
-    func popToList()
 }
 
 class PostsNavigationController: UINavigationController, PostsNavigatable
@@ -19,10 +18,5 @@ class PostsNavigationController: UINavigationController, PostsNavigatable
     func push(to detailsViewController: PostDetailViewController)
     {
         pushViewController(detailsViewController, animated: true)
-    }
-    
-    func popToList()
-    {
-        popViewController(animated: true)
     }
 }

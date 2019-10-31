@@ -14,4 +14,12 @@ extension DispatchQueue
     {
         return DispatchQueue.global(qos: .userInitiated)
     }
+    
+    @discardableResult public func asyncAfter(seconds delay: TimeInterval, execute block: @escaping ()->Void) -> DispatchWorkItem
+    {
+        let dispatchWorkItem = DispatchWorkItem(block: block)
+        let deadlineTime = DispatchTime.now() + delay
+        self.asyncAfter(deadline: deadlineTime, execute: dispatchWorkItem)
+        return dispatchWorkItem
+    }
 }

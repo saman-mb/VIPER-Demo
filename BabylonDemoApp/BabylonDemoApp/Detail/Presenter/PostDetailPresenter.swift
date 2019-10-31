@@ -49,11 +49,9 @@ final class PostDetailPresenter
     
     func loadDetails(for selection: PostDetailsSelection)
     {
+        self.delegate?.postDetailPresenterDidStartLoading()
         firstly {
             interactor.loadDetails()
-        }
-        .ensure {
-            self.delegate?.postDetailPresenterDidStartLoading()
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { users, comments in
             self.mapViewModels(from: users, comments: comments, selection: selection)

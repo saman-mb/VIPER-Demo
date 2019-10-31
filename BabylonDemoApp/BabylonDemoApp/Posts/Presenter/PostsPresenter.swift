@@ -19,11 +19,23 @@ protocol PostsPresentableDelegate: class
     func postsPresenterDidRecieveError(_ error: PostsPresenterError)
 }
 
+protocol PostsPresentatbleInput
+{
+    var didSelectPost: PublishSubject<IndexPath>  { get }
+}
+
+protocol PostsPresentatbleOutput
+{
+    var viewModel: Observable<PostViewModel> { get }
+    var isLoading: Observable<Bool> { get }
+    var error: Observable<NSError> { get }
+}
+
 protocol PostsPresentable
 {
+    var input: PostsPresentatbleInput { get }
     var delegate: PostsPresentableDelegate? { get set }
     var viewModels: BehaviorRelay<[PostViewModel]> { get }
-    func presentDetailsForPost(at index: Int)
     func refresh()
 }
 
@@ -32,14 +44,19 @@ enum PostsPresenterError: Error
     case unableToLoadPosts(Error)
 }
 
-final class PostsPresenter: PostsPresentable
+final class PostsPresenter: PostsPresentable, PostsPresentatbleInput
 {
+    var input: PostsPresentatbleInput { return self }
+    let didSelectPost = PublishSubject<IndexPath>()
+    
     private typealias RefreshResult = (viewModels: [PostViewModel], posts: [Post])
     
     private let router: PostsRoutable
     private var posts: [Post] = []
     
     private let interactor: PostsInteractable
+    
+    private let disposeBag = DisposeBag()
     
     weak var delegate: PostsPresentableDelegate?
     
@@ -49,21 +66,28 @@ final class PostsPresenter: PostsPresentable
     {
         self.router = router
         self.interactor = interactor
+        bindToView()
     }
     
-    func presentDetailsForPost(at index: Int)
+    func bindToView()
     {
-        let post = posts[index]
+        didSelectPost.asObservable()
+            .observeOn(MainScheduler.asyncInstance)
+            .bind(onNext: presentDetailsForPost)
+            .disposed(by: disposeBag)
+    }
+    
+    private func presentDetailsForPost(at indePath: IndexPath)
+    {
+        let post = posts[indePath.row]
         router.pushPostDetails(for: post)
     }
     
     func refresh()
     {
+        self.delegate?.postsPresenterDidStartLoading()
         firstly {
             interactor.updatePosts()
-        }
-        .ensure {
-            self.delegate?.postsPresenterDidStartLoading()
         }
         .then(on: DispatchQueue.main) { posts in
             self.updatePosts(posts)
