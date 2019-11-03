@@ -25,7 +25,7 @@ enum PostDetailPresenterError: Error
     case failedToLoadCommentsFromDisk([Error])
 }
 
-struct PostDetailsViewModel
+struct PostDetailsViewModel: Equatable
 {
     let authorTitle: String
     let description: String

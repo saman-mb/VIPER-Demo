@@ -10,8 +10,6 @@ import XCTest
 import PromiseKit
 @testable import BabylonApiService
 @testable import BabylonDemoApp
-import RxCocoa
-import RxSwift
 
 class PostsPresenterTests: XCTestCase {
 
