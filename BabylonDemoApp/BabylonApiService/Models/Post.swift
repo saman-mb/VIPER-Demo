@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Post: Codable
+public struct Post: Codable, Equatable
 {
     public let id: Int
     public let userId: Int

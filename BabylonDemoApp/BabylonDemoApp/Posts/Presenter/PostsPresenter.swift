@@ -46,20 +46,17 @@ enum PostsPresenterError: Error
 
 final class PostsPresenter: PostsPresentable, PostsPresentatbleInput
 {
-    var input: PostsPresentatbleInput { return self }
-    let didSelectPost = PublishSubject<IndexPath>()
-    
     private typealias RefreshResult = (viewModels: [PostViewModel], posts: [Post])
     
-    private let router: PostsRoutable
-    private var posts: [Post] = []
-    
-    private let interactor: PostsInteractable
-    
-    private let disposeBag = DisposeBag()
-    
+    var input: PostsPresentatbleInput { return self }
+    let didSelectPost = PublishSubject<IndexPath>()
     weak var delegate: PostsPresentableDelegate?
     
+    private let router: PostsRoutable
+    private let interactor: PostsInteractable
+    private let disposeBag = DisposeBag()
+
+    private var posts: [Post] = []
     private(set) var viewModels: BehaviorRelay<[PostViewModel]> = BehaviorRelay(value: [])
     
     init(router: PostsRoutable, interactor: PostsInteractable)
@@ -67,20 +64,6 @@ final class PostsPresenter: PostsPresentable, PostsPresentatbleInput
         self.router = router
         self.interactor = interactor
         bindToView()
-    }
-    
-    func bindToView()
-    {
-        didSelectPost.asObservable()
-            .observeOn(MainScheduler.asyncInstance)
-            .bind(onNext: presentDetailsForPost)
-            .disposed(by: disposeBag)
-    }
-    
-    private func presentDetailsForPost(at indePath: IndexPath)
-    {
-        let post = posts[indePath.row]
-        router.pushPostDetails(for: post)
     }
     
     func refresh()
@@ -102,6 +85,20 @@ final class PostsPresenter: PostsPresentable, PostsPresentatbleInput
         .catch { error in
             self.delegate?.postsPresenterDidRecieveError(PostsPresenterError.unableToLoadPosts(error))
         }
+    }
+    
+    private func bindToView()
+    {
+        didSelectPost.asObservable()
+            .observeOn(MainScheduler.asyncInstance)
+            .bind(onNext: presentDetailsForPost)
+            .disposed(by: disposeBag)
+    }
+
+    private func presentDetailsForPost(at indePath: IndexPath)
+    {
+        let post = posts[indePath.row]
+        router.pushPostDetails(for: post)
     }
     
     private func updatePosts(_ posts: [Post]) -> Promise<[Post]>

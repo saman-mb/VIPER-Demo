@@ -7,6 +7,7 @@
 //
 
 import Foundation
+@testable import PromiseKit
 @testable import BabylonApiService
 @testable import BabylonDemoApp
 
@@ -55,5 +56,53 @@ class MockPostsNavigator: PostsNavigatable
     func push(to detailsViewController: PostDetailViewController)
     {
         pushBlock?(detailsViewController)
+    }
+}
+
+class MockRouter: PostsRoutable
+{
+    var pushPostDetailsBlock: ((Post)->Void)?
+    
+    func pushPostDetails(for selectedPost: Post)
+    {
+        pushPostDetailsBlock?(selectedPost)
+    }
+}
+
+class MockPostsIntercator: PostsInteractable
+{
+    var updatePostsBlock: (()->Promise<[Post]>)?
+    
+    func updatePosts() -> Promise<[Post]>
+    {
+        guard let block = updatePostsBlock else
+        {
+            return Promise { seal in
+                seal.fulfill([])
+            }
+        }
+        return block()
+    }
+}
+
+class MockPostsPresenterDelegate: PostsPresentableDelegate
+{
+    var postsPresenterDidStartLoadingBlock: (()->Void)?
+    var postsPresenterDidUpdatePostsBlock: (()->Void)?
+    var postsPresenterDidRecieveErrorBlock: ((PostsPresenterError)->Void)?
+    
+    func postsPresenterDidStartLoading()
+    {
+        postsPresenterDidStartLoadingBlock?()
+    }
+    
+    func postsPresenterDidUpdatePosts()
+    {
+        postsPresenterDidUpdatePostsBlock?()
+    }
+    
+    func postsPresenterDidRecieveError(_ error: PostsPresenterError)
+    {
+        postsPresenterDidRecieveErrorBlock?(error)
     }
 }

@@ -16,8 +16,9 @@ target 'BabylonDemoAppTests' do
    project 'BabylonDemoApp.xcodeproj'
    pod 'PromiseKit'
    pod 'PromiseKit/Foundation'
+   pod 'RxSwift'
+   pod 'RxCocoa'
 end
-
 
 target 'BabylonApiService' do
   project 'BabylonApiService/BabylonApiService.xcodeproj'

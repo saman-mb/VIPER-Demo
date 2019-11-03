@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-struct PostViewModel
+struct PostViewModel: Equatable
 {
     var title: String
     var subTitle: String

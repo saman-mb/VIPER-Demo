@@ -36,7 +36,7 @@ class PostsViewController: UIViewController {
     {
         super.viewDidLoad()
         title = "Posts"
-        refreshControl.addTarget(self, action: #selector(refreshWeatherData(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshControlDidAcivate(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
         addChild(loadingViewController)
         view.addSubview(loadingViewController.view)
@@ -44,7 +44,7 @@ class PostsViewController: UIViewController {
         presenter.refresh()
     }
     
-    @objc private func refreshWeatherData(_ sender: Any)
+    @objc private func refreshControlDidAcivate(_ sender: Any)
     {
         presenter.refresh()
     }
