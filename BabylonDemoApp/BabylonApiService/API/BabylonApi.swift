@@ -44,7 +44,7 @@ extension BabylonApiImplementation: BabylonApi
             completion(.error(BabylonApiError.invalidUrl))
             return
         }
-        executeRequeast(withUrl: url, completion)
+        executeRequest(withUrl: url, completion)
     }
     
     func users(_ completion: @escaping (RequestResult<[User]>) -> Void)
@@ -53,7 +53,7 @@ extension BabylonApiImplementation: BabylonApi
             completion(.error(BabylonApiError.invalidUrl))
             return
         }
-        executeRequeast(withUrl: url, completion)
+        executeRequest(withUrl: url, completion)
     }
     
     func comments(_ completion: @escaping (RequestResult<[Comment]>) -> Void)
@@ -62,12 +62,12 @@ extension BabylonApiImplementation: BabylonApi
             completion(.error(BabylonApiError.invalidUrl))
             return
         }
-        executeRequeast(withUrl: url, completion)
+        executeRequest(withUrl: url, completion)
     }
     
     
     //MARK:- Helpers
-    private func executeRequeast<T: Decodable>(withUrl url: URL, _ completion: @escaping (RequestResult<T>) -> Void)
+    private func executeRequest<T: Decodable>(withUrl url: URL, _ completion: @escaping (RequestResult<T>) -> Void)
     {
         urlSession.downloadData(from: url, headers: configration.headers, method: .GET) { dataResult in
             self.handleResult(dataResult, completion)

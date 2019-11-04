@@ -15,6 +15,12 @@ protocol PostsNavigatable
 
 class PostsNavigationController: UINavigationController, PostsNavigatable
 {
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
+    }
+    
     func push(to detailsViewController: PostDetailViewController)
     {
         pushViewController(detailsViewController, animated: true)

@@ -21,6 +21,7 @@ protocol PostsPresentatbleOutput
 {
     var viewModelsRelay: BehaviorRelay<[PostViewModel]> { get }
     var loadingSubject: BehaviorSubject<Bool> { get }
+    var errorSubject: PublishSubject<PostsPresenterError> { get }
 }
 
 protocol PostsPresentatbleInput
@@ -75,7 +76,7 @@ final class PostsPresenter: PostsPresentable
         }
         .catch { error in
             self.outputs.loadingSubject.onNext(false)
-            self.outputs.loadingSubject.onError(PostsPresenterError.unableToLoadPosts(error))
+            self.outputs.errorSubject.onNext(PostsPresenterError.unableToLoadPosts(error))
         }
     }
 
@@ -106,6 +107,7 @@ fileprivate final class PostsPresenterOutput: PostsPresentatbleOutput
 {
     var viewModelsRelay: BehaviorRelay<[PostViewModel]> = BehaviorRelay(value: [])
     var loadingSubject = BehaviorSubject<Bool>(value: false)
+    var errorSubject = PublishSubject<PostsPresenterError>()
 }
 
 fileprivate final class PostsPresenterInput: PostsPresentatbleInput

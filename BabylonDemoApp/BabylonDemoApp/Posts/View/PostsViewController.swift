@@ -31,12 +31,9 @@ class PostsViewController: UIViewController {
         fatalError("You must create this view controller with a \(PostsPresenter.self)")
     }
     
-    deinit {
-        print("SAMAN: denit")
-    }
-    
     fileprivate func setupViews() {
         title = "Posts"
+        overrideUserInterfaceStyle = .light
         refreshControl.addTarget(self, action: #selector(refreshControlDidAcivate(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
         addChild(loadingViewController)
@@ -73,10 +70,14 @@ class PostsViewController: UIViewController {
         
         presenter.outputs.loadingSubject
             .filter { $0 == true }
-            .subscribe(onNext: { _ in
-                print("SAMAN: Loading")
+            .subscribe(onNext: { isLoading in
+                print("SAMAN: isLoading: \(isLoading)")
                 self.handleLoadingStarted()
-            }, onError: { error in
+            })
+            .disposed(by: disposeBag)
+        
+        presenter.outputs.errorSubject
+            .subscribe(onNext: { error in
                 print("SAMAN: Error")
                 self.handleLoadingError()
             })
@@ -91,34 +92,31 @@ class PostsViewController: UIViewController {
         presenter.inputs.refreshSubject.onNext(())
     }
     
-    func handleLoadingFinishedSuccessfully()
+    fileprivate func handleLoadingFinishedSuccessfully()
     {
-        assert(Thread.isMainThread)
         loadingViewController.view.isHidden = true
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(false)
         refreshControl.endRefreshing()
     }
     
-    func handleLoadingError()
+    fileprivate func handleLoadingError()
     {
-        assert(Thread.isMainThread)
         loadingViewController.view.isHidden = false
         loadingViewController.showSpinner(false)
         loadingViewController.showMessage(true)
         refreshControl.endRefreshing()
     }
     
-    func handleLoadingStarted()
+    fileprivate func handleLoadingStarted()
     {
-        assert(Thread.isMainThread)
         loadingViewController.view.isHidden = false
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(true)
         refreshControl.endRefreshing()
     }
     
-    func refreshPosts()
+    fileprivate func refreshPosts()
     {
         presenter.inputs.refreshSubject.onNext(())
     }

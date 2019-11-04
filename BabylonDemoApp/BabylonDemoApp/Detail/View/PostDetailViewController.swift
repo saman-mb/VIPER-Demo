@@ -36,6 +36,7 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
         addChild(loadingViewController)
         view.addSubview(loadingViewController.view)
         presenter.loadDetails(for: selection)

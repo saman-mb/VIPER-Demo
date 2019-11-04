@@ -42,6 +42,7 @@ public extension URLSessionType
         urlRequest.allHTTPHeaderFields = headers
         urlRequest.httpMethod = method.rawValue
         urlRequest.httpBody = body
+        urlRequest.timeoutInterval = 5.0
         
         return downloadData(from: urlRequest, completion: completion)
     }

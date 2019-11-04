@@ -44,10 +44,14 @@ class PostsPresenterTests: XCTestCase {
             .filter { $0 == true }
             .subscribe(onNext: { _ in
                 didStartLoading.fulfill()
-            }, onError: { error in
-                didNotFishWithError.fulfill()
             })
             .disposed(by: disposeBag)
+        
+        presenter.outputs.errorSubject
+                .subscribe(onNext: { _ in
+                   didNotFishWithError.fulfill()
+                })
+                .disposed(by: disposeBag)
         
         presenter.outputs.viewModelsRelay
             .filter { $0.count > 0 }
@@ -71,7 +75,7 @@ class PostsPresenterTests: XCTestCase {
         let disposeBag = DisposeBag()
         let didUpdatePosts = expectation(description: "Did update posts")
         let didStartLoading = expectation(description: "Did start loading")
-        let didFinshWithError = expectation(description: "Did finish with error")
+        let didFinishWithError = expectation(description: "Did finish with error")
         let didNotFinshLoading = expectation(description: "Did not finish loading")
         didNotFinshLoading.isInverted = true
         
@@ -79,10 +83,14 @@ class PostsPresenterTests: XCTestCase {
             .filter { $0 == true }
             .subscribe(onNext: { _ in
                 didStartLoading.fulfill()
-            }, onError: { error in
-                didFinshWithError.fulfill()
             })
             .disposed(by: disposeBag)
+        
+        presenter.outputs.errorSubject
+             .subscribe(onNext: { _ in
+                didFinishWithError.fulfill()
+             })
+             .disposed(by: disposeBag)
         
         presenter.outputs.viewModelsRelay
             .filter { $0.count > 0 }
@@ -98,7 +106,7 @@ class PostsPresenterTests: XCTestCase {
             }
         }
         presenter.inputs.refreshSubject.onNext(())
-        wait(for: [didStartLoading, didUpdatePosts, didNotFinshLoading, didFinshWithError], timeout: 1, enforceOrder: true)
+        wait(for: [didStartLoading, didUpdatePosts, didNotFinshLoading, didFinishWithError], timeout: 1, enforceOrder: true)
     }
     
     func testDidSelectPost_CallsPushDetailsOnRouter()

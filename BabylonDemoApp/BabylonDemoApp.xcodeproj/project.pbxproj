@@ -13,6 +13,9 @@
 		8F171B1C2365928D0015545B /* BabylonApi+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F171B1A2365928C0015545B /* BabylonApi+PromiseKit.swift */; };
 		8F171B1E2365AA0D0015545B /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F171B1D2365AA0D0015545B /* PostTableViewCell.swift */; };
 		8F28CB1223677DD300EF8E82 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F28CB1123677DD300EF8E82 /* LoadingViewController.swift */; };
+		8F5166B02370D71500B5D4D1 /* BabylonApiService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAEF399235CF0CA0036EAB0 /* BabylonApiService.framework */; };
+		8F5166B12370D71500B5D4D1 /* BabylonApiService.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAEF399235CF0CA0036EAB0 /* BabylonApiService.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F5166B32370D72100B5D4D1 /* BabylonApiService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAEF399235CF0CA0036EAB0 /* BabylonApiService.framework */; };
 		8F5F5D3A2369F8C600926F46 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5F5D392369F8C600926F46 /* Mocks.swift */; };
 		8F6DB6DE2368B7D600911712 /* UIColor+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6DB6DD2368B7D600911712 /* UIColor+Helpers.swift */; };
 		8F7FB4AB2358AAD400E75BCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7FB4AA2358AAD400E75BCE /* AppDelegate.swift */; };
@@ -77,6 +80,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8F5166B22370D71500B5D4D1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8F5166B12370D71500B5D4D1 /* BabylonApiService.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1F824206B0171ED5139396D7 /* Pods_BabylonDemoAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BabylonDemoAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47288AC1209510955D94DAE4 /* Pods-BabylonDemoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabylonDemoApp.release.xcconfig"; path = "Target Support Files/Pods-BabylonDemoApp/Pods-BabylonDemoApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -126,7 +143,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FAEF39E235CF0DD0036EAB0 /* BabylonApiService.framework in Frameworks */,
+				8F5166B32370D72100B5D4D1 /* BabylonApiService.framework in Frameworks */,
 				628B078CC1546FF4F6BC87A2 /* Pods_BabylonDemoApp.framework in Frameworks */,
+				8F5166B02370D71500B5D4D1 /* BabylonApiService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +418,7 @@
 				8F7FB4A42358AAD400E75BCE /* Frameworks */,
 				8F7FB4A52358AAD400E75BCE /* Resources */,
 				F158E3CC6FF734500305D5B3 /* [CP] Embed Pods Frameworks */,
+				8F5166B22370D71500B5D4D1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
