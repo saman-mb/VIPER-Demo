@@ -94,7 +94,7 @@ class PostsDetailPresenterTests: XCTestCase {
             XCTAssertEqual(expectedViewModel, viewModel)
         }
         presenter.loadDetails(for: selection)
-        wait(for: [didStartLoading, didLoadDetails, didFinishLoading], timeout: 1, enforceOrder: true)
+        wait(for: [didStartLoading, didLoadDetails, didFinishLoading], timeout: 2, enforceOrder: true)
     }
     
     func testLoadDetails_InteractorFailedWithError()
@@ -121,6 +121,6 @@ class PostsDetailPresenterTests: XCTestCase {
             didRecieveError.fulfill()
         }
         presenter.loadDetails(for: selection)
-        wait(for: [didStartLoading, didLoadDetails, didFinishLoading, didRecieveError], timeout: 1, enforceOrder: true)
+        wait(for: [didStartLoading, didLoadDetails, didFinishLoading, didRecieveError], timeout: 2, enforceOrder: true)
     }
 }

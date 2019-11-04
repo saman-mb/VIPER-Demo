@@ -61,9 +61,7 @@ class PostsViewController: UIViewController {
             .disposed(by: disposeBag)
         
         presenter.outputs.viewModelsRelay
-            .filter { $0.count > 0 }
             .subscribe(onNext: { viewModels in
-                print("SAMAN: Success!")
                 self.handleLoadingFinishedSuccessfully()
             })
             .disposed(by: disposeBag)
@@ -71,15 +69,16 @@ class PostsViewController: UIViewController {
         presenter.outputs.loadingSubject
             .filter { $0 == true }
             .subscribe(onNext: { isLoading in
-                print("SAMAN: isLoading: \(isLoading)")
                 self.handleLoadingStarted()
             })
             .disposed(by: disposeBag)
         
         presenter.outputs.errorSubject
             .subscribe(onNext: { error in
-                print("SAMAN: Error")
-                self.handleLoadingError()
+                // adding a delay to ease spinner to error message transition
+                DispatchQueue.main.asyncAfter(seconds: 1) {
+                    self.handleLoadingError()
+                }
             })
             .disposed(by: disposeBag)
         
