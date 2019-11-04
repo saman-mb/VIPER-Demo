@@ -39,7 +39,6 @@ class PostsInteractor: PostsInteractable
     func updatePosts() -> Promise<[Post]>
     {
         return Promise { seal in
-            
             firstly {
                 loadPosts()
             }
