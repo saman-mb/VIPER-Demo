@@ -40,7 +40,7 @@ public extension BabylonApi
     }
     
     //MARK:- Helpers
-    private func handleResult<T>(_ result: BabylonApiService.Result<T>, _ seal: Resolver<T>)
+    private func handleResult<T>(_ result: BabylonApiService.RequestResult<T>, _ seal: Resolver<T>)
     {
         switch result
         {

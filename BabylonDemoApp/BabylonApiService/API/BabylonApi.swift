@@ -10,7 +10,7 @@ import Foundation
 
 public protocol BabylonApi
 {
-    typealias GenericCompletion<T> = (Result<T>) -> Void
+    typealias GenericCompletion<T> = (RequestResult<T>) -> Void
     func posts(_ completion: @escaping GenericCompletion<[Post]>)
     func users(_ completion: @escaping GenericCompletion<[User]>)
     func comments(_ completion: @escaping GenericCompletion<[Comment]>)
@@ -38,7 +38,7 @@ final internal class BabylonApiImplementation
 
 extension BabylonApiImplementation: BabylonApi
 {
-    func posts(_ completion: @escaping (Result<[Post]>) -> Void)
+    func posts(_ completion: @escaping (RequestResult<[Post]>) -> Void)
     {
         guard let url = URL(string: configration.postsEndpoont) else {
             completion(.error(BabylonApiError.invalidUrl))
@@ -47,7 +47,7 @@ extension BabylonApiImplementation: BabylonApi
         executeRequeast(withUrl: url, completion)
     }
     
-    func users(_ completion: @escaping (Result<[User]>) -> Void)
+    func users(_ completion: @escaping (RequestResult<[User]>) -> Void)
     {
         guard let url = URL(string: configration.usersEndpoint) else {
             completion(.error(BabylonApiError.invalidUrl))
@@ -56,7 +56,7 @@ extension BabylonApiImplementation: BabylonApi
         executeRequeast(withUrl: url, completion)
     }
     
-    func comments(_ completion: @escaping (Result<[Comment]>) -> Void)
+    func comments(_ completion: @escaping (RequestResult<[Comment]>) -> Void)
     {
         guard let url = URL(string: configration.commentsEndpoint) else {
             completion(.error(BabylonApiError.invalidUrl))
@@ -67,7 +67,7 @@ extension BabylonApiImplementation: BabylonApi
     
     
     //MARK:- Helpers
-    private func executeRequeast<T: Decodable>(withUrl url: URL, _ completion: @escaping (Result<T>) -> Void)
+    private func executeRequeast<T: Decodable>(withUrl url: URL, _ completion: @escaping (RequestResult<T>) -> Void)
     {
         urlSession.downloadData(from: url, headers: configration.headers, method: .GET) { dataResult in
             self.handleResult(dataResult, completion)
@@ -75,7 +75,7 @@ extension BabylonApiImplementation: BabylonApi
     }
     
     // using generics here in order to avoid having a different result handling function for every API call above
-    private func handleResult<T: Decodable>(_ dataResult: Result<Data>, _ completion: @escaping (Result<T>)-> Void)
+    private func handleResult<T: Decodable>(_ dataResult: RequestResult<Data>, _ completion: @escaping (RequestResult<T>)-> Void)
     {
         switch dataResult
         {
@@ -86,9 +86,9 @@ extension BabylonApiImplementation: BabylonApi
         }
     }
     
-    private func processResponseData<T: Decodable>(_ data: (Data), _ completion: (Result<T>) -> Void)
+    private func processResponseData<T: Decodable>(_ data: (Data), _ completion: (RequestResult<T>) -> Void)
     {
-        let accountsResult: Result<T> = data.decodeJson()
+        let accountsResult: RequestResult<T> = data.decodeJson()
         switch accountsResult {
         case .success(let accountsResponse):
             completion(.success(accountsResponse))
