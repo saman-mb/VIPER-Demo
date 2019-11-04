@@ -23,7 +23,7 @@ public enum BabylonApiError: Error
     case failedToDecodeJson(Error)
 }
 
-final internal class BabylonApiImplementation
+final class BabylonApiImplementation
 {
     private let urlSession: URLSessionType
     private let configration: BabylonApiConfigurationProvider

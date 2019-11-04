@@ -23,7 +23,6 @@ class PostsViewController: UIViewController {
         self.presenter = postsPresenter
         self.loadingViewController = LoadingViewController.makeFromStoryBoard()
         super.init(coder: coder)
-        self.presenter.delegate = self
         self.loadingViewController.delegate = self
     }
 
@@ -32,24 +31,27 @@ class PostsViewController: UIViewController {
         fatalError("You must create this view controller with a \(PostsPresenter.self)")
     }
     
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
+    fileprivate func setupViews() {
         title = "Posts"
         refreshControl.addTarget(self, action: #selector(refreshControlDidAcivate(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
         addChild(loadingViewController)
         view.addSubview(loadingViewController.view)
-        setupTableViewBindings()
-        presenter.refresh()
+    }
+    
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        setupViews()
+        setupPresenterBindings()
     }
     
     @objc private func refreshControlDidAcivate(_ sender: Any)
     {
-        presenter.refresh()
+        refreshPosts()
     }
     
-    private func setupTableViewBindings()
+    private func setupPresenterBindings()
     {
         presenter.outputs.viewModelsRelay
             .bind(to: tableView.rx.items(cellIdentifier: "PostCell", cellType: PostTableViewCell.self)) { (row, viewModel, cell) in
@@ -57,12 +59,22 @@ class PostsViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        presenter.outputs.viewModelsRelay
+            .filter { $0.count > 0 }
+            .subscribe(onNext: { viewModels in
+                print("SAMAN: Success!")
+                self.handleLoadingFinishedSuccessfully()
+            })
+            .disposed(by: disposeBag)
+        
         presenter.outputs.loadingSubject
-            .subscribe(onError: { error in
-                self.loadingViewController.view.isHidden = false
-                self.loadingViewController.showSpinner(false)
-                self.loadingViewController.showMessage(true)
-                self.refreshControl.endRefreshing()
+            .filter { $0 == true }
+            .subscribe(onNext: { _ in
+                print("SAMAN: Loading")
+                self.handleLoadingStarted()
+            }, onError: { error in
+                print("SAMAN: Error")
+                self.handleLoadingError()
             })
             .disposed(by: disposeBag)
         
@@ -71,6 +83,40 @@ class PostsViewController: UIViewController {
                 self.presenter.inputs.indexPathSubject.onNext(indexPath)
             })
             .disposed(by: disposeBag)
+        
+        presenter.inputs.refreshSubject.onNext(())
+    }
+    
+    func handleLoadingFinishedSuccessfully()
+    {
+        assert(Thread.isMainThread)
+        loadingViewController.view.isHidden = true
+        loadingViewController.showMessage(false)
+        loadingViewController.showSpinner(false)
+        refreshControl.endRefreshing()
+    }
+    
+    func handleLoadingError()
+    {
+        assert(Thread.isMainThread)
+        loadingViewController.view.isHidden = false
+        loadingViewController.showSpinner(false)
+        loadingViewController.showMessage(true)
+        refreshControl.endRefreshing()
+    }
+    
+    func handleLoadingStarted()
+    {
+        assert(Thread.isMainThread)
+        loadingViewController.view.isHidden = false
+        loadingViewController.showMessage(false)
+        loadingViewController.showSpinner(true)
+        refreshControl.endRefreshing()
+    }
+    
+    func refreshPosts()
+    {
+        presenter.inputs.refreshSubject.onNext(())
     }
 }
 
@@ -78,26 +124,7 @@ extension PostsViewController: LoadingViewControllerDelegagte
 {
     func loadingViewControllerDidTapRetryButton()
     {
-        presenter.refresh()
-    }
-}
-
-extension PostsViewController: PostsPresentableDelegate
-{
-    func postsPresenterDidStartLoading()
-    {
-        loadingViewController.view.isHidden = false
-        loadingViewController.showMessage(false)
-        loadingViewController.showSpinner(true)
-        refreshControl.endRefreshing()
-    }
-    
-    func postsPresenterDidUpdatePosts()
-    {
-        loadingViewController.view.isHidden = true
-        loadingViewController.showMessage(false)
-        loadingViewController.showSpinner(false)
-        refreshControl.endRefreshing()
+        refreshPosts()
     }
 }
 

@@ -84,25 +84,3 @@ class MockPostsIntercator: PostsInteractable
         return block()
     }
 }
-
-class MockPostsPresenterDelegate: PostsPresentableDelegate
-{
-    var postsPresenterDidStartLoadingBlock: (()->Void)?
-    var postsPresenterDidUpdatePostsBlock: (()->Void)?
-    var postsPresenterDidRecieveErrorBlock: ((PostsPresenterError)->Void)?
-    
-    func postsPresenterDidStartLoading()
-    {
-        postsPresenterDidStartLoadingBlock?()
-    }
-    
-    func postsPresenterDidUpdatePosts()
-    {
-        postsPresenterDidUpdatePostsBlock?()
-    }
-    
-    func postsPresenterDidRecieveError(_ error: PostsPresenterError)
-    {
-        postsPresenterDidRecieveErrorBlock?(error)
-    }
-}

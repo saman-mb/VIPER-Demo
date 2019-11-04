@@ -15,16 +15,13 @@ class PostsPresenterTests: XCTestCase {
 
     var mockInteractor: MockPostsIntercator!
     var mockRouter: MockRouter!
-    var mockDelegate: MockPostsPresenterDelegate!
     var presenter: PostsPresenter!
     
     override func setUp()
     {
         mockInteractor = MockPostsIntercator()
         mockRouter = MockRouter()
-        mockDelegate = MockPostsPresenterDelegate()
         presenter = PostsPresenter(router: mockRouter, interactor: mockInteractor)
-        presenter.delegate = mockDelegate
     }
 
     override func tearDown()
@@ -32,7 +29,6 @@ class PostsPresenterTests: XCTestCase {
         mockInteractor = nil
         mockRouter = nil
         presenter = nil
-        mockDelegate = nil
     }
     
     func testRefresh_HappypPath_ResolvesCorrectViewModel()
@@ -63,7 +59,7 @@ class PostsPresenterTests: XCTestCase {
             }, onError: { error in
                 XCTFail()
             }).dispose()
-        presenter.refresh()
+        presenter.inputs.refreshSubject.onNext(())
         wait(for: [didStartLoading, didNotFishWithError, didFinshLoading, didRecieveViewModels], timeout: 1, enforceOrder: true)
         
     }
@@ -98,7 +94,7 @@ class PostsPresenterTests: XCTestCase {
             })
             .dispose()
         
-        presenter.refresh()
+        presenter.inputs.refreshSubject.onNext(())
         wait(for: [didStartLoading, didUpdatePosts, didNotFinshLoading, didFinshWithError], timeout: 1, enforceOrder: true)
     }
     
@@ -114,7 +110,7 @@ class PostsPresenterTests: XCTestCase {
                 seal.fulfill([selectedPost])
             }
         }
-        presenter.refresh()
+        presenter.inputs.refreshSubject.onNext(())
         waitForExpectations(timeout: 1)
         
         let didPushDetails = expectation(description: "Did push details")

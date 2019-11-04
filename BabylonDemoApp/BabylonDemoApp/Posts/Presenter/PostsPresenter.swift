@@ -12,12 +12,6 @@ import BabylonApiService
 import RxSwift
 import RxCocoa
 
-protocol PostsPresentableDelegate: class
-{
-    func postsPresenterDidStartLoading()
-    func postsPresenterDidUpdatePosts()
-}
-
 enum PostsPresenterError: Error
 {
     case unableToLoadPosts(Error)
@@ -26,21 +20,19 @@ enum PostsPresenterError: Error
 protocol PostsPresentatbleOutput
 {
     var viewModelsRelay: BehaviorRelay<[PostViewModel]> { get }
-    var loadingSubject: PublishSubject<Bool> { get }
+    var loadingSubject: BehaviorSubject<Bool> { get }
 }
 
 protocol PostsPresentatbleInput
 {
     var indexPathSubject: PublishSubject<IndexPath>  { get }
+    var refreshSubject: PublishSubject<Void> { get }
 }
 
 protocol PostsPresentable
 {
     var inputs: PostsPresentatbleInput { get }
     var outputs: PostsPresentatbleOutput { get }
-    var delegate: PostsPresentableDelegate? { get set }
-    
-    func refresh()
 }
 
 final class PostsPresenter: PostsPresentable
@@ -56,8 +48,6 @@ final class PostsPresenter: PostsPresentable
     
     private var posts: [Post] = []
     
-    weak var delegate: PostsPresentableDelegate?
-    
     init(router: PostsRoutable, interactor: PostsInteractable)
     {
         self.router = router
@@ -67,23 +57,24 @@ final class PostsPresenter: PostsPresentable
         input.presenter = self
     }
     
-    func refresh()
+    fileprivate func refreshPosts()
     {
-        self.delegate?.postsPresenterDidStartLoading()
+        self.outputs.loadingSubject.onNext(true)
         firstly {
             interactor.updatePosts()
         }
         .then(on: DispatchQueue.main) { posts in
-            self.updatePosts(posts)
+            self.update(with: posts)
         }
         .then(on: DispatchQueue.userIntiatedGlobal) { posts in
-            self.mapPostsToViewModels(from: posts)
+            self.mapViewModels(from: posts)
         }
         .done { viewModels in
+            self.outputs.loadingSubject.onNext(false)
             self.outputs.viewModelsRelay.accept(viewModels)
-            self.delegate?.postsPresenterDidUpdatePosts()
         }
         .catch { error in
+            self.outputs.loadingSubject.onNext(false)
             self.outputs.loadingSubject.onError(PostsPresenterError.unableToLoadPosts(error))
         }
     }
@@ -94,7 +85,7 @@ final class PostsPresenter: PostsPresentable
         router.pushPostDetails(for: post)
     }
     
-    private func updatePosts(_ posts: [Post]) -> Promise<[Post]>
+    private func update(with posts: [Post]) -> Promise<[Post]>
     {
         return Promise { seal in
             self.posts = posts
@@ -102,7 +93,7 @@ final class PostsPresenter: PostsPresentable
         }
     }
     
-    private func mapPostsToViewModels(from posts: [Post]) -> Promise<[PostViewModel]>
+    private func mapViewModels(from posts: [Post]) -> Promise<[PostViewModel]>
     {
         return Promise { seal in
             let viewModels = posts.map { PostViewModel(title: $0.title, subTitle: $0.body) }
@@ -114,17 +105,28 @@ final class PostsPresenter: PostsPresentable
 fileprivate final class PostsPresenterOutput: PostsPresentatbleOutput
 {
     var viewModelsRelay: BehaviorRelay<[PostViewModel]> = BehaviorRelay(value: [])
-    var loadingSubject = PublishSubject<Bool>()
+    var loadingSubject = BehaviorSubject<Bool>(value: false)
 }
 
 fileprivate final class PostsPresenterInput: PostsPresentatbleInput
 {
+    var refreshSubject = PublishSubject<Void>()
     var indexPathSubject = PublishSubject<IndexPath>()
+    
     var presenter: PostsPresenter!
     {
         didSet {
+            setupRefreshBinding()
             setupDetailSelectionBiding()
         }
+    }
+    
+    func setupRefreshBinding()
+    {
+        refreshSubject.asObservable()
+            .observeOn(MainScheduler.asyncInstance)
+            .bind(onNext: presenter.refreshPosts)
+            .disposed(by: presenter.disposeBag)
     }
     
     func setupDetailSelectionBiding()
