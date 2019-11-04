@@ -10,7 +10,7 @@
 		8FAEF36B235CB15B0036EAB0 /* BabylonApiService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAEF361235CB15B0036EAB0 /* BabylonApiService.framework */; };
 		8FAEF370235CB15B0036EAB0 /* BabylonApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF36F235CB15B0036EAB0 /* BabylonApiServiceTests.swift */; };
 		8FAEF372235CB15B0036EAB0 /* BabylonApiService.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FAEF364235CB15B0036EAB0 /* BabylonApiService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8FAEF38D235CF08D0036EAB0 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF387235CF08D0036EAB0 /* Result.swift */; };
+		8FAEF38D235CF08D0036EAB0 /* RequestResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF387235CF08D0036EAB0 /* RequestResult.swift */; };
 		8FAEF38F235CF08D0036EAB0 /* URLSession+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF389235CF08D0036EAB0 /* URLSession+Loading.swift */; };
 		8FAEF390235CF08D0036EAB0 /* UrlSessionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF38A235CF08D0036EAB0 /* UrlSessionType.swift */; };
 		8FAEF392235CF08D0036EAB0 /* Data+Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF38C235CF08D0036EAB0 /* Data+Decoding.swift */; };
@@ -43,7 +43,7 @@
 		8FAEF36A235CB15B0036EAB0 /* BabylonApiServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabylonApiServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FAEF36F235CB15B0036EAB0 /* BabylonApiServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabylonApiServiceTests.swift; sourceTree = "<group>"; };
 		8FAEF371235CB15B0036EAB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8FAEF387235CF08D0036EAB0 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		8FAEF387235CF08D0036EAB0 /* RequestResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestResult.swift; sourceTree = "<group>"; };
 		8FAEF389235CF08D0036EAB0 /* URLSession+Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+Loading.swift"; sourceTree = "<group>"; };
 		8FAEF38A235CF08D0036EAB0 /* UrlSessionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrlSessionType.swift; sourceTree = "<group>"; };
 		8FAEF38C235CF08D0036EAB0 /* Data+Decoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Decoding.swift"; sourceTree = "<group>"; };
@@ -132,7 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				8FAEF38C235CF08D0036EAB0 /* Data+Decoding.swift */,
-				8FAEF387235CF08D0036EAB0 /* Result.swift */,
+				8FAEF387235CF08D0036EAB0 /* RequestResult.swift */,
 				8FAEF389235CF08D0036EAB0 /* URLSession+Loading.swift */,
 				8FAEF38A235CF08D0036EAB0 /* UrlSessionType.swift */,
 			);
@@ -316,7 +316,7 @@
 				8FAEF3AD235CF9BF0036EAB0 /* Geolocation.swift in Sources */,
 				8FAEF3AF235CF9E60036EAB0 /* Company.swift in Sources */,
 				8FAEF3AA235CF7060036EAB0 /* Post.swift in Sources */,
-				8FAEF38D235CF08D0036EAB0 /* Result.swift in Sources */,
+				8FAEF38D235CF08D0036EAB0 /* RequestResult.swift in Sources */,
 				8FB75724235CFDB000E8C04A /* BabylonServiceFactory.swift in Sources */,
 				8FAEF3A6235CF6ED0036EAB0 /* User.swift in Sources */,
 			);

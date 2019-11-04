@@ -9,8 +9,8 @@
 import Foundation
 
 public typealias JsonObject = [String:Any]
-public typealias JsonRequestCompletionBlock = (Result<JsonObject>) -> Void
-public typealias DataRequestCompletionBlock = (Result<Data>) -> Void
+public typealias JsonRequestCompletionBlock = (RequestResult<JsonObject>) -> Void
+public typealias DataRequestCompletionBlock = (RequestResult<Data>) -> Void
 
 public enum HTTPMethod: String
 {

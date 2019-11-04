@@ -10,7 +10,7 @@ import Foundation
 
 public extension Data {
     
-    func decodeJson<D: Decodable>() -> Result<D>
+    func decodeJson<D: Decodable>() -> RequestResult<D>
     {
         do
         {
