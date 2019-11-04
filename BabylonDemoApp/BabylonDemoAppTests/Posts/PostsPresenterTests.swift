@@ -57,7 +57,7 @@ class PostsPresenterTests: XCTestCase {
         }
         presenter.refresh()
         wait(for: [didStartLoading, didNotFishWithError, didFinshLoading], timeout: 1, enforceOrder: true)
-        XCTAssertEqual(presenter.viewModels.value, [PostViewModel(title: "Hello", subTitle: "World")])
+        XCTAssertEqual(presenter.output.viewModels.value, [PostViewModel(title: "Hello", subTitle: "World")])
     }
     
     func testRefresh_InteractorFailsWithError_ViewModelsEmpty()
@@ -84,7 +84,7 @@ class PostsPresenterTests: XCTestCase {
         }
         presenter.refresh()
         wait(for: [didStartLoading, didUpdatePosts, didNotFinshLoading, didFinshWithError], timeout: 1, enforceOrder: true)
-        XCTAssertTrue(presenter.viewModels.value.isEmpty)
+        XCTAssertTrue(presenter.output.viewModels.value.isEmpty)
     }
     
     func testDidSelectPost_CallsPushDetailsOnRouter()

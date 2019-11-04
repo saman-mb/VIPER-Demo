@@ -19,51 +19,52 @@ protocol PostsPresentableDelegate: class
     func postsPresenterDidRecieveError(_ error: PostsPresenterError)
 }
 
-protocol PostsPresentatbleInput
-{
-    var didSelectPost: PublishSubject<IndexPath>  { get }
-}
-
-protocol PostsPresentatbleOutput
-{
-    var viewModel: Observable<PostViewModel> { get }
-    var isLoading: Observable<Bool> { get }
-    var error: Observable<NSError> { get }
-}
-
-protocol PostsPresentable
-{
-    var input: PostsPresentatbleInput { get }
-    var delegate: PostsPresentableDelegate? { get set }
-    var viewModels: BehaviorRelay<[PostViewModel]> { get }
-    func refresh()
-}
-
 enum PostsPresenterError: Error
 {
     case unableToLoadPosts(Error)
 }
 
-final class PostsPresenter: PostsPresentable, PostsPresentatbleInput
+protocol PostsPresentatbleOutput
+{
+    var viewModels: BehaviorRelay<[PostViewModel]> { get }
+}
+
+protocol PostsPresentatbleInput
+{
+    var didSelectPost: PublishSubject<IndexPath>  { get }
+}
+
+protocol PostsPresentable
+{
+    var input: PostsPresentatbleInput { get }
+    var output: PostsPresentatbleOutput { get }
+    var delegate: PostsPresentableDelegate? { get set }
+    
+    func refresh()
+}
+
+final class PostsPresenter: PostsPresentable
 {
     private typealias RefreshResult = (viewModels: [PostViewModel], posts: [Post])
     
-    var input: PostsPresentatbleInput { return self }
-    let didSelectPost = PublishSubject<IndexPath>()
-    weak var delegate: PostsPresentableDelegate?
+    var input: PostsPresentatbleInput
+    var output: PostsPresentatbleOutput = PostsPresenterOutput()
     
-    private let router: PostsRoutable
     private let interactor: PostsInteractable
-    private let disposeBag = DisposeBag()
-
+    fileprivate let router: PostsRoutable
+    fileprivate let disposeBag = DisposeBag()
+    
     private var posts: [Post] = []
-    private(set) var viewModels: BehaviorRelay<[PostViewModel]> = BehaviorRelay(value: [])
+    
+    weak var delegate: PostsPresentableDelegate?
     
     init(router: PostsRoutable, interactor: PostsInteractable)
     {
         self.router = router
         self.interactor = interactor
-        bindToView()
+        let input = PostsPresenterInput()
+        self.input = input
+        input.presenter = self
     }
     
     func refresh()
@@ -79,23 +80,15 @@ final class PostsPresenter: PostsPresentable, PostsPresentatbleInput
             self.mapPostsToViewModels(from: posts)
         }
         .done { viewModels in
-            self.viewModels.accept(viewModels)
+            self.output.viewModels.accept(viewModels)
             self.delegate?.postsPresenterDidUpdatePosts()
         }
         .catch { error in
             self.delegate?.postsPresenterDidRecieveError(PostsPresenterError.unableToLoadPosts(error))
         }
     }
-    
-    private func bindToView()
-    {
-        didSelectPost.asObservable()
-            .observeOn(MainScheduler.asyncInstance)
-            .bind(onNext: presentDetailsForPost)
-            .disposed(by: disposeBag)
-    }
 
-    private func presentDetailsForPost(at indePath: IndexPath)
+    fileprivate func presentDetailsForPost(at indePath: IndexPath)
     {
         let post = posts[indePath.row]
         router.pushPostDetails(for: post)
@@ -115,5 +108,29 @@ final class PostsPresenter: PostsPresentable, PostsPresentatbleInput
             let viewModels = posts.map { PostViewModel(title: $0.title, subTitle: $0.body) }
             seal.fulfill((viewModels))
         }
+    }
+}
+
+fileprivate final class PostsPresenterOutput: PostsPresentatbleOutput
+{
+    var viewModels: BehaviorRelay<[PostViewModel]> = BehaviorRelay(value: [])
+}
+
+fileprivate final class PostsPresenterInput: PostsPresentatbleInput
+{
+    var didSelectPost = PublishSubject<IndexPath>()
+    var presenter: PostsPresenter!
+    {
+        didSet {
+            setupDetailSelectionBiding()
+        }
+    }
+    
+    func setupDetailSelectionBiding()
+    {
+        didSelectPost.asObservable()
+            .observeOn(MainScheduler.asyncInstance)
+            .bind(onNext: presenter.presentDetailsForPost)
+            .disposed(by: presenter.disposeBag)
     }
 }

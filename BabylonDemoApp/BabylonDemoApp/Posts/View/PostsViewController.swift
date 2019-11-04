@@ -51,7 +51,7 @@ class PostsViewController: UIViewController {
     
     private func setupTableViewBindings()
     {
-        presenter.viewModels
+        presenter.output.viewModels
             .bind(to: tableView.rx.items(cellIdentifier: "PostCell", cellType: PostTableViewCell.self)) { (row, viewModel, cell) in
                 cell.viewModel.accept(viewModel)
             }
