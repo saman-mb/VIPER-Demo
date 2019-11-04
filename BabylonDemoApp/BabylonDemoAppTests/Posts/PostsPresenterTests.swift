@@ -8,6 +8,7 @@
 
 import XCTest
 import PromiseKit
+import RxSwift
 @testable import BabylonApiService
 @testable import BabylonDemoApp
 
@@ -33,78 +34,85 @@ class PostsPresenterTests: XCTestCase {
     
     func testRefresh_HappypPath_ResolvesCorrectViewModel()
     {
+        let disposeBag = DisposeBag()
         let didStartLoading = expectation(description: "Did start loading")
-        mockDelegate.postsPresenterDidStartLoadingBlock = {
-            didStartLoading.fulfill()
-        }
-        let didNotFishWithError = expectation(description: "Did not finsh with error")
-         didNotFishWithError.isInverted = true
-         mockDelegate.postsPresenterDidRecieveErrorBlock = { _ in
-             didNotFishWithError.fulfill()
-         }
         let didFinshLoading = expectation(description: "Did finish loading")
-        mockDelegate.postsPresenterDidUpdatePostsBlock = {
-            didFinshLoading.fulfill()
-        }
+        let didNotFishWithError = expectation(description: "Did not finsh with error")
+        didNotFishWithError.isInverted = true
+        
+        presenter.outputs.loadingSubject
+            .filter { $0 == true }
+            .subscribe(onNext: { _ in
+                didStartLoading.fulfill()
+            }, onError: { error in
+                didNotFishWithError.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
+        presenter.outputs.viewModelsRelay
+            .filter { $0.count > 0 }
+            .subscribe(onNext: { viewModels in
+                didFinshLoading.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
         mockInteractor.updatePostsBlock = {
             return Promise { seal in
                 seal.fulfill([Post(id: 1, userId: 2, title: "Hello", body: "World")])
             }
         }
-        let didRecieveViewModels = expectation(description: "Did recieve view models")
-        presenter.outputs.viewModelsRelay
-            .subscribe(onNext: { viewModels in
-                XCTAssertEqual(viewModels, [PostViewModel(title: "Hello", subTitle: "World")])
-                didRecieveViewModels.fulfill()
-            }, onError: { error in
-                XCTFail()
-            }).dispose()
         presenter.inputs.refreshSubject.onNext(())
-        wait(for: [didStartLoading, didNotFishWithError, didFinshLoading, didRecieveViewModels], timeout: 1, enforceOrder: true)
+        wait(for: [didStartLoading, didNotFishWithError, didFinshLoading], timeout: 1, enforceOrder: true)
         
     }
     
     func testRefresh_InteractorFailsWithError_ViewModelsEmpty()
     {
+        let disposeBag = DisposeBag()
+        let didUpdatePosts = expectation(description: "Did update posts")
         let didStartLoading = expectation(description: "Did start loading")
-        mockDelegate.postsPresenterDidStartLoadingBlock = {
-            didStartLoading.fulfill()
-        }
+        let didFinshWithError = expectation(description: "Did finish with error")
         let didNotFinshLoading = expectation(description: "Did not finish loading")
         didNotFinshLoading.isInverted = true
-        mockDelegate.postsPresenterDidUpdatePostsBlock = {
-            didNotFinshLoading.fulfill()
-        }
-        let didFinshWithError = expectation(description: "Did finish with error")
-        mockDelegate.postsPresenterDidRecieveErrorBlock = { error in
-            didFinshWithError.fulfill()
-        }
-        let didUpdatePosts = expectation(description: "Did update posts")
+        
+        presenter.outputs.loadingSubject
+            .filter { $0 == true }
+            .subscribe(onNext: { _ in
+                didStartLoading.fulfill()
+            }, onError: { error in
+                didFinshWithError.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
+        presenter.outputs.viewModelsRelay
+            .filter { $0.count > 0 }
+            .subscribe(onNext: { viewModels in
+                didNotFinshLoading.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
         mockInteractor.updatePostsBlock = {
             didUpdatePosts.fulfill()
             return Promise { seal in
                 seal.reject(PostsPresenterError.unableToLoadPosts(NSError(domain: "Saman", code: 100)))
             }
         }
-        presenter.outputs.viewModelsRelay
-            .subscribe(onNext: { viewModels in
-                print(viewModels)
-            }, onError: { error in
-                print(error)
-            })
-            .dispose()
-        
         presenter.inputs.refreshSubject.onNext(())
         wait(for: [didStartLoading, didUpdatePosts, didNotFinshLoading, didFinshWithError], timeout: 1, enforceOrder: true)
     }
     
     func testDidSelectPost_CallsPushDetailsOnRouter()
     {
+        let disposeBag = DisposeBag()
         let selectedPost = Post(id: 1, userId: 2, title: "Hello", body: "World")
         let didFinshLoading = expectation(description: "Did finish loading")
-        mockDelegate.postsPresenterDidUpdatePostsBlock = {
-            didFinshLoading.fulfill()
-        }
+        presenter.outputs.viewModelsRelay
+            .filter { $0.count > 0 }
+            .subscribe(onNext: { viewModels in
+                didFinshLoading.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
         mockInteractor.updatePostsBlock = {
             return Promise { seal in
                 seal.fulfill([selectedPost])

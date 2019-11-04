@@ -31,6 +31,10 @@ class PostsViewController: UIViewController {
         fatalError("You must create this view controller with a \(PostsPresenter.self)")
     }
     
+    deinit {
+        print("SAMAN: denit")
+    }
+    
     fileprivate func setupViews() {
         title = "Posts"
         refreshControl.addTarget(self, action: #selector(refreshControlDidAcivate(_:)), for: .valueChanged)
