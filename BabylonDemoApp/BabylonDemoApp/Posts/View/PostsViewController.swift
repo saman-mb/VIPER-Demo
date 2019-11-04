@@ -51,15 +51,24 @@ class PostsViewController: UIViewController {
     
     private func setupTableViewBindings()
     {
-        presenter.output.viewModels
+        presenter.output.viewModelsRelay
             .bind(to: tableView.rx.items(cellIdentifier: "PostCell", cellType: PostTableViewCell.self)) { (row, viewModel, cell) in
                 cell.viewModel.accept(viewModel)
             }
             .disposed(by: disposeBag)
         
+        presenter.output.loadingSubject
+            .subscribe(onError: { error in
+                self.loadingViewController.view.isHidden = false
+                self.loadingViewController.showSpinner(false)
+                self.loadingViewController.showMessage(true)
+                self.refreshControl.endRefreshing()
+            })
+            .disposed(by: disposeBag)
+        
         tableView.rx.itemSelected
             .subscribe(onNext: { indexPath in
-                self.presenter.input.didSelectPost.onNext(indexPath)
+                self.presenter.input.indexPathSubject.onNext(indexPath)
             })
             .disposed(by: disposeBag)
     }
@@ -88,14 +97,6 @@ extension PostsViewController: PostsPresentableDelegate
         loadingViewController.view.isHidden = true
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(false)
-        refreshControl.endRefreshing()
-    }
-    
-    func postsPresenterDidRecieveError(_ error: PostsPresenterError)
-    {
-        loadingViewController.view.isHidden = false
-        loadingViewController.showSpinner(false)
-        loadingViewController.showMessage(true)
         refreshControl.endRefreshing()
     }
 }

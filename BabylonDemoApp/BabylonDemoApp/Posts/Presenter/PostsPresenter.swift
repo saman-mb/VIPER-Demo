@@ -16,7 +16,6 @@ protocol PostsPresentableDelegate: class
 {
     func postsPresenterDidStartLoading()
     func postsPresenterDidUpdatePosts()
-    func postsPresenterDidRecieveError(_ error: PostsPresenterError)
 }
 
 enum PostsPresenterError: Error
@@ -26,12 +25,13 @@ enum PostsPresenterError: Error
 
 protocol PostsPresentatbleOutput
 {
-    var viewModels: BehaviorRelay<[PostViewModel]> { get }
+    var viewModelsRelay: BehaviorRelay<[PostViewModel]> { get }
+    var loadingSubject: PublishSubject<Bool> { get }
 }
 
 protocol PostsPresentatbleInput
 {
-    var didSelectPost: PublishSubject<IndexPath>  { get }
+    var indexPathSubject: PublishSubject<IndexPath>  { get }
 }
 
 protocol PostsPresentable
@@ -80,11 +80,11 @@ final class PostsPresenter: PostsPresentable
             self.mapPostsToViewModels(from: posts)
         }
         .done { viewModels in
-            self.output.viewModels.accept(viewModels)
+            self.output.viewModelsRelay.accept(viewModels)
             self.delegate?.postsPresenterDidUpdatePosts()
         }
         .catch { error in
-            self.delegate?.postsPresenterDidRecieveError(PostsPresenterError.unableToLoadPosts(error))
+            self.output.loadingSubject.onError(PostsPresenterError.unableToLoadPosts(error))
         }
     }
 
@@ -113,12 +113,13 @@ final class PostsPresenter: PostsPresentable
 
 fileprivate final class PostsPresenterOutput: PostsPresentatbleOutput
 {
-    var viewModels: BehaviorRelay<[PostViewModel]> = BehaviorRelay(value: [])
+    var viewModelsRelay: BehaviorRelay<[PostViewModel]> = BehaviorRelay(value: [])
+    var loadingSubject = PublishSubject<Bool>()
 }
 
 fileprivate final class PostsPresenterInput: PostsPresentatbleInput
 {
-    var didSelectPost = PublishSubject<IndexPath>()
+    var indexPathSubject = PublishSubject<IndexPath>()
     var presenter: PostsPresenter!
     {
         didSet {
@@ -128,7 +129,7 @@ fileprivate final class PostsPresenterInput: PostsPresentatbleInput
     
     func setupDetailSelectionBiding()
     {
-        didSelectPost.asObservable()
+        indexPathSubject.asObservable()
             .observeOn(MainScheduler.asyncInstance)
             .bind(onNext: presenter.presentDetailsForPost)
             .disposed(by: presenter.disposeBag)
