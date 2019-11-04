@@ -56,7 +56,7 @@ class PostsPresenterTests: XCTestCase {
             }
         }
         let didRecieveViewModels = expectation(description: "Did recieve view models")
-        presenter.output.viewModelsSubject
+        presenter.outputs.viewModelsRelay
             .subscribe(onNext: { viewModels in
                 XCTAssertEqual(viewModels, [PostViewModel(title: "Hello", subTitle: "World")])
                 didRecieveViewModels.fulfill()
@@ -90,12 +90,14 @@ class PostsPresenterTests: XCTestCase {
                 seal.reject(PostsPresenterError.unableToLoadPosts(NSError(domain: "Saman", code: 100)))
             }
         }
-        presenter.output.viewModelsSubject
+        presenter.outputs.viewModelsRelay
             .subscribe(onNext: { viewModels in
                 print(viewModels)
             }, onError: { error in
                 print(error)
-            }).dispose()
+            })
+            .dispose()
+        
         presenter.refresh()
         wait(for: [didStartLoading, didUpdatePosts, didNotFinshLoading, didFinshWithError], timeout: 1, enforceOrder: true)
     }
@@ -120,7 +122,7 @@ class PostsPresenterTests: XCTestCase {
             XCTAssertEqual(selectedPost, post)
             didPushDetails.fulfill()
         }
-        self.presenter.input.indexPathSubject.onNext([0,0])
+        self.presenter.inputs.indexPathSubject.onNext([0,0])
         waitForExpectations(timeout: 1)
     }
 }

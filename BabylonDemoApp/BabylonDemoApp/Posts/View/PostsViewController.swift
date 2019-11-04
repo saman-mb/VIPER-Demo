@@ -51,13 +51,13 @@ class PostsViewController: UIViewController {
     
     private func setupTableViewBindings()
     {
-        presenter.output.viewModelsRelay
+        presenter.outputs.viewModelsRelay
             .bind(to: tableView.rx.items(cellIdentifier: "PostCell", cellType: PostTableViewCell.self)) { (row, viewModel, cell) in
                 cell.viewModel.accept(viewModel)
             }
             .disposed(by: disposeBag)
         
-        presenter.output.loadingSubject
+        presenter.outputs.loadingSubject
             .subscribe(onError: { error in
                 self.loadingViewController.view.isHidden = false
                 self.loadingViewController.showSpinner(false)
@@ -68,7 +68,7 @@ class PostsViewController: UIViewController {
         
         tableView.rx.itemSelected
             .subscribe(onNext: { indexPath in
-                self.presenter.input.indexPathSubject.onNext(indexPath)
+                self.presenter.inputs.indexPathSubject.onNext(indexPath)
             })
             .disposed(by: disposeBag)
     }

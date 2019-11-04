@@ -36,8 +36,8 @@ protocol PostsPresentatbleInput
 
 protocol PostsPresentable
 {
-    var input: PostsPresentatbleInput { get }
-    var output: PostsPresentatbleOutput { get }
+    var inputs: PostsPresentatbleInput { get }
+    var outputs: PostsPresentatbleOutput { get }
     var delegate: PostsPresentableDelegate? { get set }
     
     func refresh()
@@ -47,8 +47,8 @@ final class PostsPresenter: PostsPresentable
 {
     private typealias RefreshResult = (viewModels: [PostViewModel], posts: [Post])
     
-    var input: PostsPresentatbleInput
-    var output: PostsPresentatbleOutput = PostsPresenterOutput()
+    var inputs: PostsPresentatbleInput
+    var outputs: PostsPresentatbleOutput = PostsPresenterOutput()
     
     private let interactor: PostsInteractable
     fileprivate let router: PostsRoutable
@@ -63,7 +63,7 @@ final class PostsPresenter: PostsPresentable
         self.router = router
         self.interactor = interactor
         let input = PostsPresenterInput()
-        self.input = input
+        self.inputs = input
         input.presenter = self
     }
     
@@ -80,11 +80,11 @@ final class PostsPresenter: PostsPresentable
             self.mapPostsToViewModels(from: posts)
         }
         .done { viewModels in
-            self.output.viewModelsRelay.accept(viewModels)
+            self.outputs.viewModelsRelay.accept(viewModels)
             self.delegate?.postsPresenterDidUpdatePosts()
         }
         .catch { error in
-            self.output.loadingSubject.onError(PostsPresenterError.unableToLoadPosts(error))
+            self.outputs.loadingSubject.onError(PostsPresenterError.unableToLoadPosts(error))
         }
     }
 
