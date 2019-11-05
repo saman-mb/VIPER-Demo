@@ -4,6 +4,8 @@
 
 **Saman Badakhshan**
 
+**samanb@me.com**
+
 ## Project Overview
 
 The project lives inside a workspace which is composed of two distinct Xcode projects, `BabylonApiService` and `BabylonDemoApp`. I selected the **VIPER** architecture for separating distinct logical domains. Dependency injection is used heavily across the application and this has come in handy in the unit tests as every dependency is a protocol making it easy to write mocks. I have written unit tests for both the service and app projects but due to my own limited time I was not able to fully cover everything. I hope the tests I have written as well as the DI I have done throughout the app does give you an idea of my knowledge and capabilities when it comes to testing. Finally I have used CocoaPods to install my dependencies into the main workspace as well as installing my `BabylonApiService` framework into the workspace. `PromiseKit` is used for implementing business logic and `RXSwift/RXCocoa` is used for binding together the presentation layer to the view layer in the `Posts` module.
