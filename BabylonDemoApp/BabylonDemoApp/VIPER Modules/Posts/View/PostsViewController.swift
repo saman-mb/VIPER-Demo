@@ -15,7 +15,6 @@ class PostsViewController: UIViewController {
     private var presenter: PostsPresentable
     @IBOutlet var tableView: UITableView!
     private var disposeBag = DisposeBag()
-    private let refreshControl = UIRefreshControl()
     private var loadingViewController: LoadingViewController
     
     init?(coder: NSCoder, postsPresenter: PostsPresenter)
@@ -34,8 +33,6 @@ class PostsViewController: UIViewController {
     fileprivate func setupViews() {
         title = "Posts"
         overrideUserInterfaceStyle = .light
-        refreshControl.addTarget(self, action: #selector(refreshControlDidAcivate(_:)), for: .valueChanged)
-        tableView.refreshControl = refreshControl
         addChild(loadingViewController)
         view.addSubview(loadingViewController.view)
     }
@@ -45,11 +42,6 @@ class PostsViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupPresenterBindings()
-    }
-    
-    @objc private func refreshControlDidAcivate(_ sender: Any)
-    {
-        refreshPosts()
     }
     
     private func setupPresenterBindings()
@@ -95,7 +87,6 @@ class PostsViewController: UIViewController {
         loadingViewController.view.isHidden = true
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(false)
-        refreshControl.endRefreshing()
     }
     
     fileprivate func handleLoadingError()
@@ -103,7 +94,6 @@ class PostsViewController: UIViewController {
         loadingViewController.view.isHidden = false
         loadingViewController.showSpinner(false)
         loadingViewController.showMessage(true)
-        refreshControl.endRefreshing()
     }
     
     fileprivate func handleLoadingStarted()
@@ -111,7 +101,6 @@ class PostsViewController: UIViewController {
         loadingViewController.view.isHidden = false
         loadingViewController.showMessage(false)
         loadingViewController.showSpinner(true)
-        refreshControl.endRefreshing()
     }
     
     fileprivate func refreshPosts()
