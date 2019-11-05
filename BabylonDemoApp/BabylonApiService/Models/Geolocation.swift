@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct GeoLocation: Codable
+public struct GeoLocation: Codable, Equatable
 {
     public let lat: String
     public let lng: String

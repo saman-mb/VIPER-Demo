@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F274B762371B0270011DDD9 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F274B752371B0270011DDD9 /* Mocks.swift */; };
 		8FAEF36B235CB15B0036EAB0 /* BabylonApiService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAEF361235CB15B0036EAB0 /* BabylonApiService.framework */; };
 		8FAEF370235CB15B0036EAB0 /* BabylonApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAEF36F235CB15B0036EAB0 /* BabylonApiServiceTests.swift */; };
 		8FAEF372235CB15B0036EAB0 /* BabylonApiService.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FAEF364235CB15B0036EAB0 /* BabylonApiService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		682ED1456752D554C10A1126 /* Pods-BabylonApiService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabylonApiService.release.xcconfig"; path = "Target Support Files/Pods-BabylonApiService/Pods-BabylonApiService.release.xcconfig"; sourceTree = "<group>"; };
+		8F274B752371B0270011DDD9 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		8FAEF361235CB15B0036EAB0 /* BabylonApiService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BabylonApiService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FAEF364235CB15B0036EAB0 /* BabylonApiService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BabylonApiService.h; sourceTree = "<group>"; };
 		8FAEF365235CB15B0036EAB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		8FAEF36E235CB15B0036EAB0 /* BabylonApiServiceTests */ = {
 			isa = PBXGroup;
 			children = (
+				8F274B752371B0270011DDD9 /* Mocks.swift */,
 				8FAEF36F235CB15B0036EAB0 /* BabylonApiServiceTests.swift */,
 				8FAEF371235CB15B0036EAB0 /* Info.plist */,
 			);
@@ -327,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FAEF370235CB15B0036EAB0 /* BabylonApiServiceTests.swift in Sources */,
+				8F274B762371B0270011DDD9 /* Mocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

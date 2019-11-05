@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Comment: Codable
+public struct Comment: Codable, Equatable
 {
     public let postId: Int
     public let id: Int

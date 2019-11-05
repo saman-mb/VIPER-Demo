@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Address: Codable
+public struct Address: Codable, Equatable
 {
     public let street: String
     public let suite: String
@@ -17,7 +17,7 @@ public struct Address: Codable
     public let geo: GeoLocation
 }
 
-public struct User: Codable
+public struct User: Codable, Equatable
 {
     public let id: Int
     public let name: String
