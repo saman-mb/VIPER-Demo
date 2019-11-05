@@ -67,6 +67,7 @@ class PostsViewController: UIViewController {
             .disposed(by: disposeBag)
         
         presenter.outputs.loadingSubject
+            .distinctUntilChanged()
             .filter { $0 == true }
             .subscribe(onNext: { isLoading in
                 self.handleLoadingStarted()
@@ -74,11 +75,9 @@ class PostsViewController: UIViewController {
             .disposed(by: disposeBag)
         
         presenter.outputs.errorSubject
+            .delay(1.0, scheduler: MainScheduler.asyncInstance)
             .subscribe(onNext: { error in
-                // adding a delay to ease spinner to error message transition
-                DispatchQueue.main.asyncAfter(seconds: 1) {
-                    self.handleLoadingError()
-                }
+                self.handleLoadingError()
             })
             .disposed(by: disposeBag)
         
