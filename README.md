@@ -8,6 +8,8 @@
 
 ## Project Overview
 
+`Requires Xcode 11, Swift 5, iOS 13`
+
 The project lives inside a workspace which is composed of two distinct Xcode projects, `BabylonApiService` and `BabylonDemoApp`. I selected the **VIPER** architecture for separating distinct logical domains. Dependency injection is used heavily across the application and this has come in handy in the unit tests as every dependency is a protocol making it easy to write mocks. I have written unit tests for both the service and app projects but due to my own limited time I was not able to fully cover everything. I hope the tests I have written as well as the DI I have done throughout the app does give you an idea of my knowledge and capabilities when it comes to testing. Finally I have used CocoaPods to install my dependencies into the main workspace as well as installing my `BabylonApiService` framework into the workspace. `PromiseKit` is used for implementing business logic and `RXSwift/RXCocoa` is used for binding together the presentation layer to the view layer in the `Posts` module.
 
 ### BabylonApiService
@@ -28,6 +30,8 @@ There are two distinct VIPER modules inside the projects labelled as `Posts` and
 I have used PromiseKit in my presenters to improve the readability and comprehension of asynchronous data flows and logical steps. I believe this makes the code much easier to follow and eliminates nested closures. I also added an extension inside the App project called `BabylonApi+PromiseKit.swift` which provides a promise based interface for the service api framework. I chose to do it this way to keep the service framework as vanilla as possible. This way if it ever gets shared consumers don't need to install `PromiseKit` as a dependency and can easily get started with it with minimal fuss.
 
 I have also used `RXSwift` inside the unit tests in order to setup bindings between the test and the object under test for creating stub test scenarios with mock dependencies. `PromiseKit` is also utilised in the unit tests to test public functions that return promises. This makes it very clear what flow is being tested inside the test function. (See `PostsInteractorTests.swift` for instance)
+
+I have used DI in all of the domains including the view controllers even thought they are loaded from a storyboard. This was achieved using the `instantiateViewController(identifier:, creator:)` on the `UIStoryboard` class in iOS SDK 13. I went with the approach to be able to easily define autolayout constraints in story board but still be able inject dependencies through the view controllers constructor rather than exposing its private properties. I have not had time to add the unit tests for the view controllers but I think it will be easy to add due to the approach I have used here.
 
 #### Caching Approach
 I used a simple file based approach for caching due to time constraints as I did not have time to setup core data or SQL lite data base.
