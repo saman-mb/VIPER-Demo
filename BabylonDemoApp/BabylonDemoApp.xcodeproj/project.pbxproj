@@ -13,6 +13,7 @@
 		8F171B1C2365928D0015545B /* BabylonApi+PromiseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F171B1A2365928C0015545B /* BabylonApi+PromiseKit.swift */; };
 		8F171B1E2365AA0D0015545B /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F171B1D2365AA0D0015545B /* PostTableViewCell.swift */; };
 		8F274B732371A7500011DDD9 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F274B722371A7500011DDD9 /* PostDetailViewController.swift */; };
+		8F274B792371B9500011DDD9 /* PostDetailInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F274B782371B9500011DDD9 /* PostDetailInteractorTests.swift */; };
 		8F28CB1223677DD300EF8E82 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F28CB1123677DD300EF8E82 /* LoadingViewController.swift */; };
 		8F5166B02370D71500B5D4D1 /* BabylonApiService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAEF399235CF0CA0036EAB0 /* BabylonApiService.framework */; };
 		8F5166B12370D71500B5D4D1 /* BabylonApiService.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAEF399235CF0CA0036EAB0 /* BabylonApiService.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -105,6 +106,7 @@
 		8F171B1A2365928C0015545B /* BabylonApi+PromiseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BabylonApi+PromiseKit.swift"; sourceTree = "<group>"; };
 		8F171B1D2365AA0D0015545B /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		8F274B722371A7500011DDD9 /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
+		8F274B782371B9500011DDD9 /* PostDetailInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailInteractorTests.swift; sourceTree = "<group>"; };
 		8F28CB1123677DD300EF8E82 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		8F5F5D392369F8C600926F46 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		8F6DB6DD2368B7D600911712 /* UIColor+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Helpers.swift"; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 			isa = PBXGroup;
 			children = (
 				8F835E832369F60B00D1F1C9 /* PostsDetailPresenterTests.swift */,
+				8F274B782371B9500011DDD9 /* PostDetailInteractorTests.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -687,6 +690,7 @@
 				8F835E7E2369F5BA00D1F1C9 /* PostsPresenterTests.swift in Sources */,
 				8F7FB4C02358AAD500E75BCE /* PostsInteractorTests.swift in Sources */,
 				8F5F5D3A2369F8C600926F46 /* Mocks.swift in Sources */,
+				8F274B792371B9500011DDD9 /* PostDetailInteractorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

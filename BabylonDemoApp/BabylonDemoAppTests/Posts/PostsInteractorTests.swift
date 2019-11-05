@@ -49,7 +49,7 @@ class PostsInteractorTests: XCTestCase {
         
         didNotCallLoadFromDisk.isInverted = true
         stubWritSuccess(didCallWrite)
-        stubApiSuccesss(didCallApi)
+        stubApiSuccess(didCallApi)
         stubDiskLoadSuccess(didNotCallLoadFromDisk)
         
         firstly {
@@ -72,7 +72,7 @@ class PostsInteractorTests: XCTestCase {
         
         didNotCallLoadFromDisk.isInverted = true
         stubWritFailed(didCallWrite)
-        stubApiSuccesss(didCallApi)
+        stubApiSuccess(didCallApi)
         stubDiskLoadSuccess(didNotCallLoadFromDisk)
         
         firstly {
@@ -133,7 +133,7 @@ class PostsInteractorTests: XCTestCase {
     
     //MARK: - Helpers
     
-    fileprivate func stubApiSuccesss(_ didCallApi: XCTestExpectation)
+    fileprivate func stubApiSuccess(_ didCallApi: XCTestExpectation)
     {
         mockBabylonApi.postsBlock = { completion in
             didCallApi.fulfill()

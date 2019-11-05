@@ -14,8 +14,8 @@ import Foundation
 class MockBabylonApi: BabylonApi
 {
     var postsBlock: ((@escaping GenericCompletion<[Post]>)-> Void)?
-    var users: ((@escaping GenericCompletion<[User]>)-> Void)?
-    var comments: ((@escaping GenericCompletion<[Comment]>)-> Void)?
+    var usersBlock: ((@escaping GenericCompletion<[User]>)-> Void)?
+    var commentsBlock: ((@escaping GenericCompletion<[Comment]>)-> Void)?
     
     func posts(_ completion: @escaping GenericCompletion<[Post]>)
     {
@@ -24,12 +24,12 @@ class MockBabylonApi: BabylonApi
     
     func users(_ completion: @escaping GenericCompletion<[User]>)
     {
-        users?(completion)
+        usersBlock?(completion)
     }
     
     func comments(_ completion: @escaping GenericCompletion<[Comment]>)
     {
-        comments?(completion)
+        commentsBlock?(completion)
     }
 }
 
@@ -80,6 +80,41 @@ class MockPostsIntercator: PostsInteractable
             return Promise { seal in
                 seal.fulfill([])
             }
+        }
+        return block()
+    }
+}
+
+class MockPostsDetailDelegate: PostDetailPresentableDelegate
+{
+    var postDetailPresenterDidStartLoadingBlock: (()->Void)?
+    var postDetailPresenterDidFinishLoadingBlock: ((PostDetailsViewModel)->Void)?
+    var postDetailPresenterDidFailToLoadWithErrorBlock: ((Error)->Void)?
+    
+    func postDetailPresenterDidStartLoading()
+    {
+        postDetailPresenterDidStartLoadingBlock?()
+    }
+    
+    func postDetailPresenterDidFinishLoading(viewModel: PostDetailsViewModel)
+    {
+        postDetailPresenterDidFinishLoadingBlock?(viewModel)
+    }
+    
+    func postDetailPresenterDidFailToLoadWithError(_ error: Error)
+    {
+        postDetailPresenterDidFailToLoadWithErrorBlock?(error)
+    }
+}
+
+class MockPostDetailInteractor: PostDetailInteractable
+{
+    var loadDetailsBlock: (()->Promise<PostDetails>)?
+
+    func loadDetails() -> Promise<PostDetails>
+    {
+        guard let block = loadDetailsBlock else {
+            return Promise { seal in }
         }
         return block()
     }

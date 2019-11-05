@@ -11,41 +11,6 @@ import PromiseKit
 @testable import BabylonApiService
 @testable import BabylonDemoApp
 
-class MockPostsDetailDelegate: PostDetailPresentableDelegate
-{
-    var postDetailPresenterDidStartLoadingBlock: (()->Void)?
-    var postDetailPresenterDidFinishLoadingBlock: ((PostDetailsViewModel)->Void)?
-    var postDetailPresenterDidFailToLoadWithErrorBlock: ((Error)->Void)?
-    
-    func postDetailPresenterDidStartLoading()
-    {
-        postDetailPresenterDidStartLoadingBlock?()
-    }
-    
-    func postDetailPresenterDidFinishLoading(viewModel: PostDetailsViewModel)
-    {
-        postDetailPresenterDidFinishLoadingBlock?(viewModel)
-    }
-    
-    func postDetailPresenterDidFailToLoadWithError(_ error: Error)
-    {
-        postDetailPresenterDidFailToLoadWithErrorBlock?(error)
-    }
-}
-
-class MockPostDetailInteractor: PostDetailInteractable
-{
-    var loadDetailsBlock: (()->Promise<PostDetails>)?
-
-    func loadDetails() -> Promise<PostDetails>
-    {
-        guard let block = loadDetailsBlock else {
-            return Promise { seal in }
-        }
-        return block()
-    }
-}
-
 class PostsDetailPresenterTests: XCTestCase {
     
     var presenter: PostDetailPresenter!
