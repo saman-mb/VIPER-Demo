@@ -10,6 +10,8 @@
 
 `Requires Xcode 11, Swift 5, iOS 13`
 
+I recommend running this app on a device when testing as I have noticed that the networking behaviour when switching off wifi on a simulator differs to on a real iOS device. I have seen that sometimes it takes the simulator some time to realise that the wifi connection on the mac is back up and results in network requests failing for a little while before it finally connects. This does not occur when you run the app on a device making it easier to test the offline and error scenarios. Also please note I have hard coded the network request timeouts to 5 seconds in order to improve the UX when the device has no connection. 
+
 The project lives inside a workspace which is composed of two distinct Xcode projects, `BabylonApiService` and `BabylonDemoApp`. I selected the **VIPER** architecture for separating distinct logical domains. Dependency injection is used heavily across the application and this has come in handy in the unit tests as every dependency is a protocol making it easy to write mocks. I have written unit tests for both the service and app projects but due to my own limited time I was not able to fully cover everything. I hope the tests I have written as well as the DI I have done throughout the app does give you an idea of my knowledge and capabilities when it comes to testing. Finally I have used CocoaPods to install my dependencies into the main workspace as well as installing my `BabylonApiService` framework into the workspace. `PromiseKit` is used for implementing business logic and `RXSwift/RXCocoa` is used for binding together the presentation layer to the view layer in the `Posts` module.
 
 ### BabylonApiService
