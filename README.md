@@ -1,11 +1,5 @@
 # VIPER Demo App
 
-*Demo app for Babylon iOS job application*
-
-**Saman Badakhshan**
-
-**samanb@me.com**
-
 ## Project Overview
 
 To run this project requires `Xcode 11, Swift 5, iOS 13`
