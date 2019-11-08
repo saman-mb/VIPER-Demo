@@ -1,4 +1,4 @@
-# Demo App
+# VIPER Demo App
 
 *Demo app for Babylon iOS job application*
 
