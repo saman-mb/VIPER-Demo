@@ -41,9 +41,3 @@ I have used DI in all of the domains including the view controllers even thought
 Currently the interactors depend on `FileInteractable`. This dependency is injected allowing the interactors to write json to the documents directory or read from it when there is no network connection. The json is loaded from disk as a fallback when the associated api call promise's catch error case. If there is no json cached to disk I display a generic error message to the user but this could later be enhanced to map the error cases to localised descriptions improving the messaging for users.
 
 Due to the DI approach used and the simplicity of the intercactors due to the clean separation of concerns in the project, I am confident  it would be quite trivial to swap out `FileInteractable` with a different dependency later such as `DataBaseInteractable` for instance which could abstract an interface to a proper DB but also hiding away the implementation details such that developers could decide to change easily from CoreData to SQL later if they so wished.
-
-## Conclusion
-
-I hope this overview was useful for you to read in order to get started with my project. I have enjoyed developing this and very much look forward to hearing your response on it.
-
-Many thanks.
